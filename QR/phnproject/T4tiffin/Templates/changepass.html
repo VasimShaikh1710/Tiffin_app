@@ -2,6 +2,8 @@
 
 {% block title %}Change Password - T4tiffin{% endblock %}
 
+{% load static %}
+
 {% block content %}
     <div class="container mt-4">
 
@@ -16,16 +18,17 @@
 
                 <!-- Display Success or Error Messages -->
                 {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} text-center" role="alert">
-                        {{ message }}
+                    <div id="message-container">
+                        {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                            {{ message }}
+                        </div>
+                        {% endfor %}
                     </div>
-                    {% endfor %}
                 {% endif %}
 
-                <form action="/changepass" method="POST">
+                <form action="/changepass" method="POST" id="changePasswordForm">
                     {% csrf_token %}
-
 
                     <!-- Username -->
                     <div class="form-group">
@@ -33,22 +36,24 @@
                         <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="Enter username" required>
                     </div>
 
-                    <!-- previous password -->
+                    <!-- Previous password -->
                     <div class="form-group">
-                        <label for="password" class="font-weight-bold">Previous Password</label>
-                        <input type="text" name="previous_password" id="previous_password" class="form-control form-control-lg" placeholder="Enter previous password" required>
+                        <label for="previous_password" class="font-weight-bold">Previous Password</label>
+                        <input type="password" name="previous_password" id="previous_password" class="form-control form-control-lg" placeholder="Enter previous password" required>
                     </div>
 
                     <!-- New password -->
                     <div class="form-group">
-                        <label for="standard" class="font-weight-bold">New Password</label>
-                        <input type="text" name="new_password" id="new_password" class="form-control form-control-lg" placeholder="Enter new password" required>
+                        <label for="new_password" class="font-weight-bold">New Password</label>
+                        <input type="password" name="new_password" id="new_password" class="form-control form-control-lg" placeholder="Enter new password" required>
+                        <small class="text-danger" id="newPasswordError"></small>
                     </div>
 
-                    <!-- conform password -->
+                    <!-- Confirm password -->
                     <div class="form-group">
-                        <label for="division" class="font-weight-bold">Conform Password</label>
-                        <input type="text" name="conform_password" id="conform_password" class="form-control form-control-lg" placeholder="Enter conform password" required>
+                        <label for="conform_password" class="font-weight-bold">Confirm Password</label>
+                        <input type="password" name="conform_password" id="conform_password" class="form-control form-control-lg" placeholder="Enter confirm password" required>
+                        <small class="text-danger" id="confirmPasswordError"></small>
                     </div>
 
                     <!-- Submit Button -->
@@ -56,8 +61,153 @@
                         <input class="btn btn-info btn-lg px-5 py-3" type="submit" value="Submit">
                     </div>
 
+                    <!-- Go to Home Button -->
+                    <div class="text-center mt-4">
+                        <a href="/home" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                    </div>
                 </form>
             </div>
+
         </div>
     </div>
+
+    <style>
+    /* Set the background image */
+    body {
+        background-image: url("{% static 'images/change_pass.jpg' %}");
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+    }
+
+    .container {
+        max-width: 100%;
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    .p-5 {
+        padding: 2rem !important;
+    }
+
+    .col-lg-6 {
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control-lg {
+        padding: 10px 15px;
+        font-size: 1.125rem;
+    }
+
+    .btn-lg {
+        padding: 1rem 1.5rem;
+        font-size: 1.25rem;
+    }
+
+    /* Wood skin type button colors */
+    .btn-primary, .btn-info {
+        background-color: #8B4513;  /* Brown color */
+        border: 2px solid #5E2A1D;  /* Darker brown for border */
+        color: #fff;
+        width: 100%;
+    }
+
+    .btn-primary:hover, .btn-info:hover {
+        background-color: #5E2A1D;  /* Darker brown on hover */
+        border-color: #8B4513;
+    }
+
+    .btn-primary, .btn-info {
+        width: 100%;
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+        .col-lg-6 {
+            max-width: 100%;
+            padding: 0;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+        }
+
+        .form-control-lg {
+            font-size: 1rem;
+            padding: 8px 10px;
+        }
+
+        .btn-lg {
+            font-size: 1.125rem;
+        }
+
+        .container {
+            padding: 10px;
+        }
+
+        .p-5 {
+            padding: 1rem !important;
+        }
+
+        h5.display-6 {
+            font-size: 1.5rem;
+        }
+
+        .alert {
+            font-size: 0.9rem;
+        }
+
+        .btn-primary, .btn-info {
+            width: auto;
+            margin-top: 15px;
+        }
+    }
+</style>
+
+
+    <script>
+        document.getElementById('changePasswordForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Field values
+            const newPassword = document.getElementById('new_password').value;
+            const confirmPassword = document.getElementById('conform_password').value;
+
+            // Regular expression for strong passwords
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            // Clear previous errors
+            document.getElementById('newPasswordError').textContent = '';
+            document.getElementById('confirmPasswordError').textContent = '';
+
+            // Validate new password
+            if (!passwordRegex.test(newPassword)) {
+                document.getElementById('newPasswordError').textContent = 'Password must be at least 8 characters, contain 1 uppercase letter, 1 number, and 1 special character.';
+                isValid = false;
+            }
+
+            // Validate confirm password
+            if (newPassword !== confirmPassword) {
+                document.getElementById('confirmPasswordError').textContent = 'Passwords do not match.';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+
+        // Hide messages after 3 seconds
+        setTimeout(function() {
+            const messageContainer = document.getElementById('message-container');
+            if (messageContainer) {
+                messageContainer.style.display = 'none';
+            }
+        }, 3000);
+    </script>
 {% endblock %}

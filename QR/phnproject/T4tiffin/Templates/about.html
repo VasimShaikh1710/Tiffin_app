@@ -8,9 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     {% load static %}
     <style>
-        /* Navbar styles */
         .navbar {
-            background-color: rgba(0, 0, 0, 0.5); /* Transparent background */
+            background-color: rgba(0, 0, 0, 0.5);
             position: absolute;
             width: 100%;
             z-index: 1000;
@@ -26,41 +25,25 @@
         }
 
         .navbar .nav-link.login-btn {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent background */
+            background-color: rgba(255, 255, 255, 0.2);
             color: white !important;
             padding: 8px 16px;
             border-radius: 4px;
-            text-align: center;
             font-weight: bold;
             transition: background-color 0.3s ease;
         }
 
         .navbar .nav-link.login-btn:hover {
-            background-color: rgba(255, 255, 255, 0.4); /* Slightly opaque on hover */
+            background-color: rgba(255, 255, 255, 0.4);
         }
 
-        .navbar-toggler-icon {
-            color: white !important; /* Make toggler icon visible */
-        }
-
-        /* Navbar Links (Left-aligned) */
-        .navbar-nav-left {
-            margin-left: 0;
-        }
-
-        .navbar-nav-left .nav-item {
-            margin-right: 20px;
-        }
-
-        /* Page Background */
         .about-background {
             background: url('{% static "images/aboutpage.png" %}') no-repeat center center fixed;
             background-size: cover;
-            color:black;
+            color: black;
             padding: 100px 0;
         }
 
-        /* Section Styling */
         .section {
             padding: 60px 20px;
         }
@@ -69,14 +52,12 @@
             font-size: 2rem;
             font-weight: bold;
             color: #333;
-            text-align: center;
             margin-bottom: 20px;
         }
 
         .about-content {
             font-size: 1.1rem;
             color: #555;
-            text-align: center;
         }
 
         .testimonial-card {
@@ -85,7 +66,6 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             padding: 30px;
             margin-top: 20px;
-            text-align: center;
         }
 
         .cta-button {
@@ -105,7 +85,6 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
-            margin-bottom: 15px;
         }
 
         .faq-accordion .accordion-button {
@@ -114,23 +93,37 @@
             color: #333;
         }
 
-        .faq-accordion .accordion-button:focus {
-            box-shadow: none;
+        @media (max-width: 768px) {
+            .about-title {
+                font-size: 1.5rem;
+            }
+
+            .about-content {
+                font-size: 1rem;
+            }
+
+            .testimonial-card {
+                padding: 20px;
+            }
+
+            .cta-button {
+                font-size: 1rem;
+                padding: 10px 20px;
+            }
         }
     </style>
 </head>
 <body>
-  {% load static %}
   <nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-      <!-- Logo -->
       <a class="navbar-brand" href="/">
           <img src="{% static 'images/logo.jpeg' %}" alt="T4tiffin Logo">
       </a>
-      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <!-- Left-Aligned Links: Home, About, Contact -->
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0 navbar-nav-left">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="/startpage">Home</a>
           </li>
@@ -141,8 +134,6 @@
             <a class="nav-link" href="/contact">Contact</a>
           </li>
         </ul>
-
-        <!-- Dynamic Login/Logout Button (Right-aligned) -->
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           {% if request.session.username %}
             <li class="nav-item">
@@ -160,53 +151,50 @@
 
   <div class="about-background">
     <div class="container text-center text-white">
-        <h1 class="display-4 mb-3" style="font-weight: bold;">Welcome to T4tiffin</h1>
+        <h1 class="display-4 mb-3">Welcome to T4tiffin</h1>
       <p class="lead">The best tiffin service for students. Convenient, reliable, and always fresh!</p>
     </div>
   </div>
 
   <div class="container mt-5">
     <div class="section">
-      <!-- Mission & Vision Section -->
-      <h3 class="about-title">Our Mission</h3>
-      <p class="about-content">
-          Our mission is to provide a seamless tiffin delivery service that ensures students receive home-cooked meals without any hassle. We aim to make school life easier for both students and parents.
+      <h3 class="about-title text-center">Our Mission</h3>
+      <p class="about-content text-center">
+          Our mission is to provide a seamless tiffin delivery service that ensures students receive home-cooked meals without any hassle.
       </p>
 
-      <h3 class="about-title">Our Vision</h3>
-      <p class="about-content">
-          Our vision is to become the most trusted and innovative tiffin delivery service for schools, ensuring that every student receives nutritious meals delivered with care.
+      <h3 class="about-title text-center">Our Vision</h3>
+      <p class="about-content text-center">
+          Our vision is to become the most trusted and innovative tiffin delivery service for schools, ensuring every student receives nutritious meals delivered with care.
       </p>
     </div>
 
     <div class="section">
-      <!-- Testimonials Section -->
-      <h3 class="about-title">What Our Users Say</h3>
+      <h3 class="about-title text-center">What Our Users Say</h3>
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="testimonial-card">
-            <img src="https://via.placeholder.com/100" alt="User" class="testimonial-img">
-            <p>"T4tiffin has been a lifesaver for us! We no longer worry about my kid missing their tiffin." - Parent</p>
+            <img src="https://via.placeholder.com/100" alt="User 1" class="testimonial-img">
+            <p>"T4tiffin has been a lifesaver for us!" - Parent</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="testimonial-card">
-            <img src="https://via.placeholder.com/100" alt="User" class="testimonial-img">
-            <p>"A fantastic service. My child always gets their meals on time." - Student</p>
+            <img src="https://via.placeholder.com/100" alt="User 2" class="testimonial-img">
+            <p>"A fantastic service. Meals are always on time." - Student</p>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4 col-12">
           <div class="testimonial-card">
-            <img src="https://via.placeholder.com/100" alt="User" class="testimonial-img">
-            <p>"Highly recommend it to other parents. The convenience and reliability are unmatched." - Parent</p>
+            <img src="https://via.placeholder.com/100" alt="User 3" class="testimonial-img">
+            <p>"Highly recommend it to other parents!" - Parent</p>
           </div>
         </div>
       </div>
     </div>
 
     <div class="section faq-accordion">
-      <!-- FAQ Section -->
-      <h3 class="about-title">Frequently Asked Questions</h3>
+      <h3 class="about-title text-center">FAQs</h3>
       <div class="accordion" id="faqAccordion">
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingOne">
@@ -214,21 +202,21 @@
               How does the tiffin delivery work?
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+          <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne">
             <div class="accordion-body">
-              Tiffin delivery works by placing an order on our platform. Once the order is placed, our team ensures the delivery to your child's school.
+              Place an order on our platform. Our team ensures delivery to your child's school.
             </div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header" id="headingTwo">
             <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              How do I know when my tiffin has been delivered?
+              How do I know when my tiffin is delivered?
             </button>
           </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+          <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo">
             <div class="accordion-body">
-              You will receive a notification once your tiffin has been successfully delivered to your child’s school. You can also track the delivery status via our platform.
+              You will receive a notification or can track it on our platform.
             </div>
           </div>
         </div>
@@ -236,9 +224,8 @@
     </div>
 
     <div class="section text-center">
-      <!-- Call to Action Section -->
       <h3 class="about-title">Ready to make your child's day easier?</h3>
-      <a href="/signup" class="cta-button">Sign Up Now</a>
+      <a href="/login" class="cta-button">Login</a>
     </div>
   </div>
 </body>

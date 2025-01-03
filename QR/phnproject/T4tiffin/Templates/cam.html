@@ -6,7 +6,7 @@
     <title>QR Code Scanner</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-    
+
         body {
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #2193b0, #6dd5ed);
@@ -18,7 +18,7 @@
             margin: 0;
             color: #fff;
         }
-    
+
         h1 {
             color: #ffffff;
             margin-bottom: 20px;
@@ -30,25 +30,20 @@
         }
 
         .main-container {
-            display: flex;
-            flex-direction: row;
-            justify-content: center;
-            align-items: center;
-            width: 90%;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
             max-width: 1200px;
         }
 
-        .left-column {
-            width: 50%;
-            padding-right: 20px;
+        .left-column, .right-column {
+            width: 100%;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
-        }
-
-        .right-column {
-            width: 50%;
-            padding-left: 20px;
         }
 
         #video-preview, #video-preview2 {
@@ -58,15 +53,10 @@
             border: 4px solid #fff;
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
             margin-bottom: 20px;
-            transition: transform 0.3s ease-in-out;
-        }
-    
-        #video-preview:hover, #video-preview2:hover {
-            transform: scale(1.05);
         }
 
         input[type="text"] {
-            width: 90%;
+            width: 100%;
             max-width: 500px;
             padding: 12px;
             margin: 10px 0;
@@ -156,6 +146,31 @@
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.3);
         }
 
+        /* Mobile responsiveness */
+        @media screen and (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            #video-preview, #video-preview2 {
+                max-width: 100%;
+                width: 100%;
+            }
+
+            input[type="text"], #student-details {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            #timer, #error-message, #student-details p {
+                font-size: 16px;
+            }
+
+            button {
+                font-size: 16px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -237,7 +252,9 @@
                         videoElement1.classList.add('hidden'); // Hide the first video element
                         videoElement2.classList.remove('hidden'); // Show the second video element
                         inputField2.classList.remove('hidden'); // Show the second input field
-                        startScanner2(); // Start scanning for the second QR code
+                        setTimeout(() => { // Delay the second scanner by 2 seconds
+                            startScanner2(); // Start scanning for the second QR code after 2 seconds
+                        }, 2000); // 2000 milliseconds = 2 seconds
                     }
                 }
             }
@@ -337,24 +354,25 @@
                 })
                 .catch(error => {
                     console.error('Error fetching student details:', error);
-                    studentDetailsDiv.innerHTML = `<p>Error fetching details.</p>`;
+                    studentDetailsDiv.innerHTML = '<p>Sorry, something went wrong. Please try again later.</p>';
                 });
             }
         }
 
         function stopCamera() {
-            const streams = [videoElement1.srcObject, videoElement2.srcObject];
-            streams.forEach(stream => {
-                if (stream && stream.getTracks) {
-                    stream.getTracks().forEach(track => track.stop());
-                }
-            });
+            let stream1 = videoElement1.srcObject;
+            if (stream1) {
+                let tracks = stream1.getTracks();
+                tracks.forEach(track => track.stop());
+            }
+            let stream2 = videoElement2.srcObject;
+            if (stream2) {
+                let tracks = stream2.getTracks();
+                tracks.forEach(track => track.stop());
+            }
         }
 
-        window.onload = function () {
-            startScanner1();
-        };
-
+        window.onload = startScanner1;
     </script>
 </body>
 </html>

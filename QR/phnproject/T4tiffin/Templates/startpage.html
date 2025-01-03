@@ -10,27 +10,29 @@
         margin: 0;
         padding: 0;
         font-family: 'Poppins', sans-serif;
-        background: linear-gradient(135deg, #6a11cb, #2575fc); /* Beautiful vibrant gradient background */
-        color: #fff;
+        background: linear-gradient(135deg, #d8b384, #8c6239); /* Warm wood gradient */
+        color: #4a3628; /* Deep wood color for text */
         height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: flex-start;
+        overflow: hidden;
     }
 
     /* Main container with two columns */
     .home-container {
         display: flex;
         justify-content: center;
-        align-items: flex-start; /* Align at the top */
+        align-items: flex-start;
         flex: 1;
         padding: 20px;
         gap: 20px;
         flex-wrap: wrap;
+        width: 100%;
         overflow: hidden;
     }
 
-    /* Left side container for video and school registration box */
+    /* Left side container for video and school registration button */
     .left-container {
         display: flex;
         flex-direction: column;
@@ -59,22 +61,21 @@
         object-fit: cover;
     }
 
-    /* New School Registration Box */
+    /* School Registration Button */
     .box4 {
         width: 100%;
         padding: 20px;
-        color: white;
+        color: #fff;
         text-align: center;
         border-radius: 20px;
         box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
         font-size: 1.5rem;
         font-weight: bold;
         position: relative;
-        background: linear-gradient(90deg, #ff8e53, #ff3d00); /* Gradient for Registration box */
+        background: linear-gradient(90deg, #8b4513, #d2691e); /* Wood-like gradient */
         cursor: pointer;
         text-decoration: none;
         height: 100px;
-        overflow: hidden;
         transition: all 0.3s ease;
     }
 
@@ -90,70 +91,32 @@
         flex-direction: column;
         justify-content: space-between;
         gap: 20px;
-        height: auto; /* Adjust to container height */
-        max-height: 80vh; /* Prevent overflow */
+        height: auto;
+        max-height: 80vh;
         padding: 10px;
+        width: 100%;
     }
 
-    /* Individual boxes styling */
+    /* Text-like boxes */
     .box {
         width: 100%;
         padding: 20px;
-        color: white;
+        color: #4a3628; /* Wood color text */
         text-align: center;
-        border-radius: 20px;
-        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
+        border-radius: 10px;
+        background: linear-gradient(135deg, #fffaf0, #f5deb3); /* Cream gradient background */
         font-size: 1.5rem;
-        font-weight: bold;
-        position: relative;
-        background: linear-gradient(135deg, #00bcd4, #0083c1); /* Modern gradient background */
-        transform: scale(1);
-        transition: all 0.3s ease;
-        height: 100px; /* Set height of each box */
-        overflow: hidden;
+        font-weight: normal;
+        line-height: 1.5;
+        box-shadow: none; /* Remove box shadow */
+        transition: none; /* Disable hover effects */
+        height: auto; /* Allow text height to adjust naturally */
     }
 
-    /* Hover effects on boxes */
-    .box:hover {
-        transform: scale(1.05); /* Slight zoom effect */
-        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-    }
-
-    /* Box text with decorative underline */
-    .box::after {
-        content: "";
-        position: absolute;
-        bottom: -10px;
-        left: 50%;
-        width: 60%;
-        height: 4px;
-        background: #fff;
-        transform: translateX(-50%);
-        transition: width 0.3s ease;
-    }
-
-    .box:hover::after {
-        width: 80%;
-    }
-
-    /* Individual box colors */
-    .box1 {
-        background: linear-gradient(90deg, #ff4b5c, #ff7c7d);
-    }
-
-    .box2 {
-        background: linear-gradient(90deg, #28a745, #33b879);
-    }
-
-    .box3 {
-        background: linear-gradient(90deg, #ffc107, #ffb84d);
-    }
-
-    /* Logo styling */
     .logo-container {
         text-align: center;
-        margin-top: 20px; /* Add top margin for separation from video */
-        margin-bottom: 30px; /* Extra space for visual balance */
+        margin-top: 20px;
+        margin-bottom: 30px;
     }
 
     .logo-container img {
@@ -179,18 +142,21 @@
 
     /* Responsive design for smaller screens */
     @media (max-width: 768px) {
+        body {
+            height: auto; /* Allow body to expand on mobile */
+            overflow: auto;
+        }
+
         .home-container {
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: auto; /* Let content adjust vertically */
+            overflow-y: auto; /* Allow vertical scrolling */
         }
 
         .video-container, .boxes-container {
             width: 100%;
-        }
-
-        .video-container {
-            margin-bottom: 20px;
         }
 
         .box {
@@ -206,7 +172,7 @@
 </style>
 
 <div class="home-container">
-    <!-- Left Side: Video and School Registration Box -->
+    <!-- Left Side: Video and School Registration Button -->
     <div class="left-container">
         <div class="video-container">
             <video autoplay muted loop>
@@ -215,8 +181,8 @@
             </video>
         </div>
 
-        <!-- School Registration Box -->
-        <a href="/schoolregistration" class="box box4">School Registration</a>
+        <!-- School Registration Button -->
+        <a href="/schoolregistration" class="box4">School Registration</a>
     </div>
 
     <!-- Right Side: Text Boxes -->
@@ -226,9 +192,9 @@
             <img src="{% static 'images/logo.jpeg' %}" alt="T4Tiffin Logo">
         </div>
 
-        <div class="box box1">"Welcome to T4Tiffin"</div>
-        <div class="box box2">"Forget tiffin? T4Tiffin ensures your child gets their lunch<br> no matter what!"</div>
-        <div class="box box3">"With T4Tiffin, your school staff can quickly receive <br> deliver forgotten tiffins to students!"</div>
+        <div class="box box1">Welcome to T4Tiffin</div>
+        <div class="box box2">Forget tiffin? T4Tiffin ensures your child gets their lunch no matter what!</div>
+        <div class="box box3">With T4Tiffin, your school staff can quickly receive and deliver forgotten tiffins to students!</div>
     </div>
 </div>
 

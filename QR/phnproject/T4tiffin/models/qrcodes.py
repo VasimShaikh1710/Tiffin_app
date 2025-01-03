@@ -2,19 +2,21 @@ from django.db import models
 from .students import StudentRegistration
 import qrcode
 from io import BytesIO
-from django.core.files import File
+import base64
 from PIL import Image
+import os
+from django.conf import settings
 
 class Qrcodes(models.Model):
     username = models.ForeignKey(StudentRegistration, on_delete=models.CASCADE)
-    parmanantqr = models.ImageField(upload_to='qr_codes/', blank=True)
-    multiple = models.ImageField(upload_to='ml_qrcodes/', blank=True)
+    parmanantqr_base64 = models.TextField(blank=True)  # Base64 encoded QR code
+    multiple_base64 = models.TextField(blank=True)  # Base64 encoded QR code
     encrypt1 = models.CharField(max_length=500)
     encrypt2 = models.CharField(max_length=500)
 
     def save(self, *args, **kwargs):
-        # Helper function to generate QR code with logo
-        def generate_qr_with_logo(data, logo_path, output_filename):
+        # Helper function to generate QR code with logo and return base64
+        def generate_qr_with_logo(data, logo_relative_path):
             qr = qrcode.QRCode(
                 version=1,
                 error_correction=qrcode.constants.ERROR_CORRECT_H,  # High error correction for logo
@@ -24,8 +26,11 @@ class Qrcodes(models.Model):
             qr.add_data(data)
             qr.make(fit=True)
 
-            # Create QR code image
+            # Create the QR code image
             qr_img = qr.make_image(fill_color="black", back_color="white").convert('RGB')
+
+            # Resolve full path for logo in static files
+            logo_path = os.path.join(settings.BASE_DIR, "T4tiffin", "static", logo_relative_path)
 
             # Open logo
             try:
@@ -35,9 +40,9 @@ class Qrcodes(models.Model):
                 print(f"Error loading logo: {e}")
                 return None
 
-            # Resize logo to 50% of QR code size
+            # Resize logo to fit within the QR code
             qr_width, qr_height = qr_img.size
-            logo_size = int(qr_width * 0.8)  # 50% of QR code size
+            logo_size = int(qr_width * 0.8)  # Adjust logo size
             logo = logo.resize((logo_size, logo_size))
 
             # Calculate position for the logo
@@ -46,17 +51,22 @@ class Qrcodes(models.Model):
             # Paste logo onto QR code
             qr_img.paste(logo, pos, mask=logo)
 
-            # Save QR code with logo
+            # Convert to Base64
             buffer = BytesIO()
             qr_img.save(buffer, format="PNG")
             buffer.seek(0)
-            return File(buffer, name=output_filename)
+            qr_base64 = base64.b64encode(buffer.getvalue()).decode('utf-8')
 
-        # Permanent QR code with logo
-        logo_path = "media/images/qrlogo.png"  # Update path as per your project
-        self.parmanantqr = generate_qr_with_logo(self.encrypt1, logo_path, f'{self.username.username}_qr.png')
+            return qr_base64
 
-        # Multiple QR code with logo
-        self.multiple = generate_qr_with_logo(self.encrypt2, logo_path, f'{self.username.username}_qr_multiple.png')
+        # Path relative to the static folder
+        logo_relative_path = "images/qrlogo.png"
+
+        # Generate QR codes and store them as base64
+        if not self.parmanantqr_base64:
+            self.parmanantqr_base64 = generate_qr_with_logo(self.encrypt1, logo_relative_path)
+
+        if not self.multiple_base64:
+            self.multiple_base64 = generate_qr_with_logo(self.encrypt2, logo_relative_path)
 
         super().save(*args, **kwargs)

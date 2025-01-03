@@ -42,22 +42,43 @@
             </div>
 
             <div class="text-center mt-4">
-                <button type="submit" class="btn btn-info btn-lg btn-block">
+                <button type="submit" class="btn btn-wood btn-lg btn-block">
                     Place Order
                 </button>
             </div>
         </form>
+        <!-- Back to Home Button -->
+        <div class="text-center mt-3">
+            <a href="{% url 'parent_dashboard' %}" class="btn btn-wood btn-lg">Back to Dashboard</a>
+        </div>
     </div>
 </div>
 
-{% endblock %}
-
 <style>
-body {
-    background-image: url('{% static "images/placeorder.jpeg" %}');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    min-height: 100vh;
-}
+    body {
+        background-image: url("{% static 'images/place_order2.jpg' %}");
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+    }
+
+    /* Wood skin color for the buttons */
+    .btn-wood {
+        background-color: #d18f56; /* Wood color */
+        color: white;
+        border: 2px solid #b76e2d;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        font-size: 18px;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .btn-wood:hover {
+        background-color: #b76e2d; /* Darker wood color on hover */
+        border-color: #9b4d20;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-3px); /* Slight lift on hover */
+    }
 </style>
+
+{% endblock %}

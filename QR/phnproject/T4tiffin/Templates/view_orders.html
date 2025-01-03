@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block title %}Your Orders - T4tiffin{% endblock %}
 
 {% block content %}
@@ -55,9 +57,21 @@
             <p class="fs-5">You have no orders placed yet. Start by placing your first order!</p>
         </div>
     {% endif %}
+    <!-- Back to Home Button -->
+    <div class="text-center mt-3">
+        <a href="{% url 'parent_dashboard' %}" class="btn btn-secondary btn-lg">Back to Dashboard</a>
+    </div>
 </div>
 
 <style>
+
+    /* Set the background image */
+    body {
+        background-image: url("{% static 'images/order.jpg' %}");
+        background-size: cover;
+        background-position: center center;
+        background-attachment: fixed;
+    }
     /* Table Styling */
     .table {
         border-collapse: separate;

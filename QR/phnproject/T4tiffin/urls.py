@@ -4,12 +4,12 @@ from django.urls import path
 from .import views
 
 urlpatterns = [
-    path('signup/', views.signup, name = 'signup'),
+    path('student_registration/', views.student_registration, name = 'student_registration'),
     path('body/', views.body),
     path('login/', views.login, name = 'login'),
     path('home/', views.home, name = 'home'),
     path('orders/', views.orders, name = 'orders'),
-    path('registered/', views.registered),
+    path('registered/', views.registered, name = 'registered'),
     path('parentsDashboard/', views.parentsDashboard, name='parent_dashboard'),
     path('place_order/', views.place_order, name = 'place_order'),
     path('view_orders', views.view_orders, name='view_orders'),
@@ -26,6 +26,10 @@ urlpatterns = [
     path('about', views.about, name = 'about'),
     path('profile', views.profile, name = 'profile'),
     path('schoolregistration', views.schoolregistration, name = 'schoolregistration'),
+    path('download/permanent_qr/<int:qr_id>/', views.download_permanent_qr, name='download_permanent_qr'),
+    path('download/multiple_qrs/<int:student_id>/', views.download_multiple_qrs, name='download_multiple_qrs'),
+    path('delete_student/<int:student_id>/', views.delete_student, name='delete_student'),
+    path('display_qr/<int:student_id>/', views.display_qr, name = 'display_qr'),
     path('update_order_status/<int:order_id>/', views.update_order_status, name='update_order_status'),  # Update order status
 ]
 

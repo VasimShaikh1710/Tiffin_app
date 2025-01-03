@@ -13,8 +13,9 @@
         }
 
         .navbar .navbar-brand img {
-            width: 50px;
+            max-width: 100%; /* Ensure the logo scales with the screen size */
             height: auto;
+            max-height: 50px; /* Set a maximum height for consistency */
         }
 
         .navbar .nav-link {
@@ -38,6 +39,13 @@
 
         .navbar-toggler-icon {
             color: white !important; /* Make toggler icon visible */
+        }
+
+        /* Adjust the navbar-toggler visibility for smaller screens */
+        @media (max-width: 768px) {
+            .navbar-toggler-icon {
+                background-color: white !important; /* Ensuring the toggle icon is visible on small screens */
+            }
         }
     </style>
 </head>

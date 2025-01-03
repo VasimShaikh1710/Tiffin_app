@@ -63,14 +63,14 @@
     }
 
     .card-header {
-        background-color: #007bff; /* Custom Blue */
-        border-bottom: 3px solid #0056b3; /* Darker border for the header */
+        background-color: #8B5E3C; /* Wood color for header */
+        border-bottom: 3px solid #6A3F2B; /* Darker wood color for the header border */
         text-transform: uppercase;
         letter-spacing: 1px;
     }
 
     .transparent-bg {
-        background-color: transparent; /* Make the card body transparent */
+        background-color: transparent; /* Keep card body transparent */
     }
 
     .fw-bold {
@@ -91,19 +91,21 @@
         border-radius: 15px;
     }
 
-    /* Floating boxes for actions */
+    /* Floating boxes for actions with wood effect */
     .floating-boxes {
         display: flex;
         justify-content: space-between;
         gap: 30px;
         padding: 40px;
-        margin-top: 30px; /* Added top margin here */
+        margin-top: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
     }
 
     .box {
         width: 250px;
         height: 150px;
-        background-color: #fff;
+        background-color: #D49A6A; /* Light wood background */
         color: #333;
         display: flex;
         align-items: center;
@@ -116,12 +118,13 @@
         text-decoration: none;
         transition: all 0.3s ease;
         cursor: pointer;
+        margin-bottom: 20px;
     }
 
     .box:hover {
         transform: translateY(-10px);
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        background-color: #007bff;
+        background-color: #8B5E3C; /* Darker wood on hover */
         color: #fff;
     }
 
@@ -131,15 +134,15 @@
     }
 
     .order-box {
-        background-color: #5cb85c;
+        background-color: #8E5E3C;
     }
 
     .orders-box {
-        background-color: #428bca;
+        background-color: #7A4A2F;
     }
 
     .manage-box {
-        background-color: #f0ad4e;
+        background-color: #6A3F2B;
     }
 
     /* Additional styling for spacing */
@@ -153,6 +156,35 @@
 
     .text-center {
         text-align: center;
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 768px) {
+        .floating-boxes {
+            padding: 20px;
+        }
+
+        .box {
+            width: 100%;
+            height: auto;
+            font-size: 16px;
+            padding: 20px;
+        }
+
+        .floating-boxes .box {
+            margin-bottom: 15px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .fs-4 {
+            font-size: 1.1rem;
+        }
+
+        .floating-boxes {
+            flex-direction: column;
+            gap: 20px;
+        }
     }
 </style>
 

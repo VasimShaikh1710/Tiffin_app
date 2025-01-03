@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Codes Display</title>
+</head>
+<body>
+    <h1>All QR Codes</h1>
+
+    <div>
+        <h2>Permanent QR Codes</h2>
+        {% for qr in qr_codes %}
+            <div>
+                <h3>Permanent QR Code (ID: {{ qr.id }}):</h3>
+                <img src="data:image/png;base64,{{ qr.parmanantqr_base64 }}" alt="Permanent QR Code">
+
+                <!-- Download Button for Permanent QR Code -->
+                <a href="data:image/png;base64,{{ qr.parmanantqr_base64 }}" download="permanent_qr_code_{{ qr.id }}.png">
+                    <button>Download Permanent QR Code</button>
+                </a>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+
+    <div>
+        <h2>Multiple QR Codes</h2>
+        {% for qr in qr_codes %}
+            <div>
+                <h3>Multiple QR Code (ID: {{ qr.id }}):</h3>
+                <img src="data:image/png;base64,{{ qr.multiple_base64 }}" alt="Multiple QR Code">
+
+                <!-- Download Button for Multiple QR Code -->
+                <a href="data:image/png;base64,{{ qr.multiple_base64 }}" download="multiple_qr_code_{{ qr.id }}.png">
+                    <button>Download Multiple QR Code</button>
+                </a>
+            </div>
+            <hr>
+        {% endfor %}
+    </div>
+</body>
+</html>
