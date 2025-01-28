@@ -717,3 +717,8 @@ def display_qr(request, student_id):
         'student': student,
         'qrcodes': qrcodes
     })
+
+
+
+def add(request):
+    return render(request, 'add.html')
