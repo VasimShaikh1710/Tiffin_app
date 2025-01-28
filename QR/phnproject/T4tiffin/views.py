@@ -720,5 +720,3 @@ def display_qr(request, student_id):
 
 
 
-def add(request):
-    return render(request, 'add.html')
