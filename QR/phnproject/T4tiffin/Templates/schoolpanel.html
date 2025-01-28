@@ -1,0 +1,348 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - T4tiffin{% endblock %}
+
+{% load static %}
+
+{% block content %}
+<div class="container mt-3">
+    {% if messages %}
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show message-box" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% endif %}
+</div>
+
+<div class="container-fluid mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            {% if user_details %}
+            <div class="card futuristic-card shadow-xl mb-4">
+                <div class="card-header text-center bg-gradient">
+                    <h5 class="mb-0">Student Profile</h5>
+                </div>
+                <div class="card-body">
+                    <h6 class="fw-bold text-light">Student Name:</h6>
+                    <p class="fs-4 text-white">{{ user_details.student_name }}</p>
+                    <h6 class="fw-bold text-light">Age:</h6>
+                    <p class="fs-4 text-white">{{ user_details.age }} years</p>
+                    <h6 class="fw-bold text-light">Grade:</h6>
+                    <p class="fs-4 text-white">{{ user_details.grade }}</p>
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Action Boxes -->
+            <div class="action-boxes">
+                <div class="row">
+                    <!-- First row with 3 boxes -->
+                    <div class="col-md-4">
+                        <a href="/student_registration" class="box futuristic-box registration-box">
+                            <i class="fas fa-shopping-cart"></i> 
+                            <div class="box-content">
+                                <span class="box-text">Registration</span>
+                                <p class="box-description">Register a new student for tiffin service.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/orders" class="box futuristic-box orders-box">
+                            <i class="fas fa-list-alt"></i> 
+                            <div class="box-content">
+                                <span class="box-text">Orders</span>
+                                <p class="box-description">View or manage existing orders.</p>
+                            </div>
+                            {% if pending_orders_count > 0 %}
+                                <span class="order-count-badge">{{ pending_orders_count }}</span>
+                            {% endif %}
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/registered" class="box futuristic-box registered-box">
+                            <i class="fas fa-qrcode"></i> 
+                            <div class="box-content">
+                                <span class="box-text">Registered</span>
+                                <p class="box-description">View the list of registered tiffins.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Second row with 3 boxes -->
+                    <div class="col-md-4">
+                        <a href="/scanner" class="box futuristic-box scanner-box">
+                            <i class="fas fa-map-marker-alt"></i> 
+                            <div class="box-content">
+                                <span class="box-text">Scanner</span>
+                                <p class="box-description">Scan the QR code to verify tiffin delivery.</p>
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="/changepass" class="box futuristic-box changepass-box">
+                            <i class="fas fa-key"></i> 
+                            <div class="box-content">
+                                <span class="box-text">Change Password</span>
+                                <p class="box-description">Change your account password for security.</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Background and Text Effects */
+    body {
+        background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+        background-color: #FFCC80; /* Apply the gradient color */
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Shadow effect for text */
+    }
+
+    /* Message Box Styling */
+    .message-box {
+        width: 100%;
+        padding: 20px;
+        margin: 15px 0;
+        border-radius: 10px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: 500;
+        transition: opacity 0.5s ease-out;
+    }
+
+    .alert-dismissible {
+        position: relative;
+    }
+
+    /* Center the message box */
+    .alert {
+        margin: 0 auto;
+        text-align: center;
+        width: 50%; /* Adjust width as needed */
+        font-size: 1.2rem;
+        background-color: #f8d7da;
+        color: #721c24;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Success Message Styling */
+    .alert-success {
+        background-color: #d4edda;
+        color: #155724;
+    }
+
+    /* Error Message Styling */
+    .alert-danger {
+        background-color: #f8d7da;
+        color: #721c24;
+    }
+
+    /* Information Message Styling */
+    .alert-info {
+        background-color: #d1ecf1;
+        color: #0c5460;
+    }
+
+    .alert .btn-close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+    }
+
+    /* Box Container Styling */
+    .box {
+        width: 180px;
+        height: 150px;
+        background-color: #fff;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        border-radius: 20px; /* More rounded corners */
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Larger shadow */
+        font-size: 16px;
+        font-weight: 700;
+        text-decoration: none;
+        position: relative;
+        transition: all 0.4s ease; /* Smooth transition */
+        padding: 15px;
+        margin-bottom: 15px;
+        overflow: hidden;
+    }
+
+    .box-content {
+        text-align: center;
+    }
+
+    /* Hover Effects */
+    .box:hover {
+        transform: translateY(-15px); /* More floating effect */
+        box-shadow: 0 20px 30px rgba(0, 0, 0, 0.3); /* Larger shadow */
+        background-color: #f9f9f9; /* Subtle change on hover */
+    }
+
+    /* Box Text */
+    .box-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+        transition: color 0.3s ease;
+    }
+
+    .box:hover .box-text {
+        color: #ff6f61; /* Highlight color on hover */
+    }
+
+    /* Description Text */
+    .box-description {
+        font-size: 14px;
+        color: #777;
+        transition: opacity 0.3s ease;
+        opacity: 0;
+    }
+
+    .box:hover .box-description {
+        opacity: 1;
+        color: #333;
+    }
+
+    /* Icons */
+    .box i {
+        font-size: 30px;
+        color: #ff6f61;
+        margin-bottom: 10px;
+        transition: transform 0.3s ease;
+    }
+
+    .box:hover i {
+        transform: scale(1.2); /* Enlarge icon on hover */
+    }
+
+    /* Red dot styling for pending orders */
+    .order-count-badge {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        width: 20px;
+        height: 20px;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        font-weight: bold;
+        text-align: center;
+        border-radius: 50%;
+        line-height: 20px;
+    }
+
+    /* Box description container */
+    .box-description {
+        font-size: 13px;
+        color: #aaa;
+        margin-top: 5px;
+    }
+
+    /* Card Styling */
+    .card-header {
+        background-color: #007bff;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+    }
+
+    .fw-bold {
+        font-weight: 700;
+        color: #333;
+    }
+
+    .fs-4 {
+        font-size: 1.3rem;
+        color: #333;
+        line-height: 1.7;
+    }
+
+    .shadow-xl {
+        box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    .card {
+        border-radius: 20px;
+        overflow: hidden;
+    }
+
+    /* Action Boxes Layout */
+    .action-boxes .row {
+        margin-top: 30px;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .action-boxes .col-md-4 {
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: center;
+        flex: 0 0 33.33%;
+    }
+
+    /* Mobile Responsiveness */
+    @media (max-width: 768px) {
+        .box {
+            width: 140px;
+            height: 120px;
+            padding: 10px;
+            font-size: 14px;
+        }
+
+        .action-boxes .row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .col-md-4 {
+            flex: 0 0 50%;
+            max-width: 50%;
+        }
+    }
+
+    /* Fade-out effect */
+    .fade {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+    }
+
+    /* Add opacity to the message when shown */
+    .message-box {
+        opacity: 1;
+    }
+</style>
+
+<script>
+    // Show message box with fade-in effect, then fade-out after 3 seconds
+    setTimeout(function() {
+        var messages = document.querySelectorAll('.alert');
+        messages.forEach(function(message) {
+            message.classList.add('fade'); // Add fade class for smooth transition
+            setTimeout(function() {
+                message.style.display = 'none'; // Hide after fade-out
+            }, 500); // Wait for fade transition to finish
+        });
+    }, 3000);
+</script>
+
+{% endblock %}

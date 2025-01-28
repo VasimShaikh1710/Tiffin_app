@@ -115,8 +115,7 @@ def student_registration(request):
         messages.warning(request, 'Please log in to student registration!')
         return redirect('login')
 
-
-
+#home
 
 def login(request):
     if request.method == "GET":
@@ -133,14 +132,13 @@ def login(request):
 
         if school:
             # Check if the password matches
-            # flag1 = (password, school.password)
             flag = check_password(password, school.password)
             if flag:
                 request.session['username'] = school.username
-                b = messages.success(request, 'Login successful!')
-                return redirect('home')
+                messages.success(request, 'Login successful!')
+                return redirect('schoolpanel')
             else:
-                error_message = "Username or password is invalid!"
+                messages.error(request, "Username or password is invalid!")  # Error message added
         else:
             # Attempt to get the student by username
             student = StudentRegistration().get_student_by_user(username)
@@ -151,19 +149,20 @@ def login(request):
                 if flag:
                     # Store username in session after successful login
                     request.session['username'] = student.username
-                    b = messages.success(request, 'Login successful!')
+                    messages.success(request, 'Login successful!')
                     return redirect('parent_dashboard')  # Redirect to parent dashboard
                 else:
-                    error_message = "Username or password is invalid!"
+                    messages.error(request, "Username or password is invalid!")  # Error message added
             else:
-                error_message = "Username or password is invalid!"
+                messages.error(request, "Username or password is invalid!")  # Error message added
 
-        print(f"Error: {error_message}")
-        return render(request,'login.html', {'error': error_message})
+        print("Invalid login attempt.")
+        return render(request, 'login.html')
 
 
 
-def home(request):
+
+def schoolpanel(request):
     # Check if the user is logged in and fetch their session username
     username = request.session.get('username')
 
@@ -185,7 +184,7 @@ def home(request):
         # Get the count of all password reset requests
 
         # Render the home page with the counts
-        return render(request, 'home.html', {
+        return render(request, 'schoolpanel.html', {
             'pending_orders_count': pending_orders_count
         })
     else:
@@ -457,11 +456,11 @@ def forgotpass(request):
 
 
 
+#startpage
 
 
-
-def startpage(request):
-    return render(request, 'startpage.html')
+def home(request):
+    return render(request, 'home.html')
 
 def scanner(request):
     username = request.session.get('username')
@@ -487,30 +486,31 @@ def changepass(request):
             # Check if user exists
             user = School.get_school_by_user(username)
             if not user:
-                t = messages.error(request, "Invalid Username.")
+                messages.error(request, "Invalid Username.")  # Corrected
                 return redirect('/changepass')
 
             # Validate previous password
-            if not (previous_password, user.password):
-                t = messages.error(request, "Previous password is incorrect.")
+            if not (previous_password == user.password):  # Fixed the comparison
+                messages.error(request, "Previous password is incorrect.")  # Corrected
                 return redirect('/changepass')
 
             # Check if new password and confirm password match
             if new_password != conform_password:
-                t = messages.error(request, "New password and Confirm password do not match.")
+                messages.error(request, "New password and Confirm password do not match.")  # Corrected
                 return redirect('/changepass')
 
             # Hash the new password and update
             user.password = make_password(new_password)
             user.save()
 
-            t = messages.success(request, "Password changed successfully!")
+            messages.success(request, "Password changed successfully!")  # Corrected
             return redirect('/changepass')
 
         return render(request, 'changepass.html')
     else:
-        messages.warning(request, 'Please log in to change passwrord!')
+        messages.warning(request, 'Please log in to change password!')  # Fixed spelling error
         return redirect('login')
+
 
 
 
@@ -641,20 +641,30 @@ def schoolregistration(request):
 
 def delete_student(request, student_id):
     if request.method == 'POST':
-        # Fetch the student to delete
-        student = StudentRegistration.objects.get(id=student_id)
+        try:
+            # Fetch the student to delete
+            student = StudentRegistration.objects.get(id=student_id)
 
-        # Delete related orders
-        Orders.objects.filter(username=student).delete()
+            # Delete related orders
+            Orders.objects.filter(username=student).delete()
 
-        # Now delete the student 
-        student.delete()
+            # Now delete the student
+            student.delete()
 
-        messages.success(request, "Student and related orders deleted successfully!")
-        return redirect('registered')
+            # Return success response as JSON
+            return JsonResponse({'success': True})
+
+        except StudentRegistration.DoesNotExist:
+            # Return error response if student doesn't exist
+            return JsonResponse({'success': False, 'error': 'Student not found'})
+
+        except Exception as e:
+            # Return general error response
+            return JsonResponse({'success': False, 'error': str(e)})
+
     else:
-        messages.error(request, "Invalid request method!")
-        return redirect('registered')
+        # Return error if the method is not POST
+        return JsonResponse({'success': False, 'error': 'Invalid request method!'})
 
 
 def download_permanent_qr(request, qr_id):

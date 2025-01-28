@@ -5,12 +5,12 @@
 {% load static %}
 
 {% block content %}
-    <div class="container mt-4">
+<div class="container mt-4">
 
         <div class="p-5 m-4 shadow-lg rounded">
 
             <!-- Forgot Password Section -->
-            <div class="col-lg-6 mx-auto border pt-4 rounded bg-light p-5">
+            <div class="col-lg-6 mx-auto border pt-4 rounded bg-white p-5">
                 <div class="text-center">
                     <h5 class="display-6 text-primary">Change Password</h5>
                     <hr class="w-50 mx-auto">
@@ -58,12 +58,12 @@
 
                     <!-- Submit Button -->
                     <div class="form-group text-center">
-                        <input class="btn btn-info btn-lg px-5 py-3" type="submit" value="Submit">
+                        <input class="btn wood-btn px-5 py-3" type="submit" value="Submit">
                     </div>
 
                     <!-- Go to Home Button -->
-                    <div class="text-center mt-4">
-                        <a href="/home" class="btn btn-primary btn-lg">Go to Dashboard</a>
+                    <div class="form-group text-center">
+                        <a href="/schoolpanel" class="btn wood-btn px-5 py-3">Go to Dashboard</a>
                     </div>
                 </form>
             </div>
@@ -72,103 +72,132 @@
     </div>
 
     <style>
-    /* Set the background image */
-    body {
-        background-image: url("{% static 'images/change_pass.jpg' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
-    }
-
-    .container {
-        max-width: 100%;
-        padding-left: 15px;
-        padding-right: 15px;
-    }
-
-    .p-5 {
-        padding: 2rem !important;
-    }
-
-    .col-lg-6 {
-        max-width: 100%;
-        padding: 0;
-    }
-
-    .form-group {
-        margin-bottom: 1.5rem;
-    }
-
-    .form-control-lg {
-        padding: 10px 15px;
-        font-size: 1.125rem;
-    }
-
-    .btn-lg {
-        padding: 1rem 1.5rem;
-        font-size: 1.25rem;
-    }
-
-    /* Wood skin type button colors */
-    .btn-primary, .btn-info {
-        background-color: #8B4513;  /* Brown color */
-        border: 2px solid #5E2A1D;  /* Darker brown for border */
-        color: #fff;
-        width: 100%;
-    }
-
-    .btn-primary:hover, .btn-info:hover {
-        background-color: #5E2A1D;  /* Darker brown on hover */
-        border-color: #8B4513;
-    }
-
-    .btn-primary, .btn-info {
-        width: 100%;
-    }
-
-    /* Responsive styles */
-    @media (max-width: 768px) {
-        .col-lg-6 {
-            max-width: 100%;
+        /* Set the background color similar to the login page */
+        body {
+            background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+            color: #333333;
+            background-color: #FFCC80; /* Fallback color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
             padding: 0;
         }
-
-        .form-group label {
-            font-size: 1rem;
-        }
-
-        .form-control-lg {
-            font-size: 1rem;
-            padding: 8px 10px;
-        }
-
-        .btn-lg {
-            font-size: 1.125rem;
-        }
-
+    
         .container {
+            max-width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            box-sizing: border-box;
+        }
+    
+        .p-5.m-4 {
+            width: 100%;
+            max-width: 550px; /* Increased max-width for wider form */
+            background-color: #fff; /* White background for the form */
+            border-radius: 15px; /* Rounded corners for the form */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 20px 30px; /* Slightly increased padding */
+            transition: all 0.3s ease-in-out;
+        }
+    
+        .p-5.m-4:hover {
+            transform: translateY(-5px); /* Hover effect to lift the form */
+        }
+    
+        .col-lg-6 {
+            width: 100%;
             padding: 10px;
+            margin: 0 auto;
         }
-
-        .p-5 {
-            padding: 1rem !important;
+    
+        .form-group {
+            margin-bottom: 1rem; /* Reduced margin between fields */
         }
-
-        h5.display-6 {
-            font-size: 1.5rem;
+    
+        .form-control-lg {
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 10px; /* Reduced padding */
+            font-size: 1rem; /* Slightly smaller font size */
+            transition: all 0.3s ease;
         }
-
-        .alert {
-            font-size: 0.9rem;
+    
+        .form-control-lg:focus {
+            border-color: #ff4c9e; /* Highlight border color on focus */
+            box-shadow: 0 0 5px rgba(255, 76, 158, 0.5); /* Focus glow effect */
         }
-
-        .btn-primary, .btn-info {
-            width: auto;
+    
+        .wood-btn {
+            background: linear-gradient(to right, #ff8c00, #ff4c9e); /* Gradient Background */
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem; /* Slightly smaller font size */
+            text-transform: uppercase;
+            padding: 8px 20px; /* Reduced padding */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%; /* Makes button take full width */
+        }
+    
+        .wood-btn:hover {
+            background: linear-gradient(to right, #ff4c9e, #ff8c00); /* Reverse gradient on hover */
+            transform: scale(1.05); /* Slight zoom on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+    
+        .wood-btn:active {
+            transform: scale(1); /* Reset zoom on click */
+        }
+    
+        .text-center h5 {
+            font-size: 1.5rem; /* Reduced font size */
+            font-weight: bold;
+            color: #ff4c9e;
+            text-align: center; /* Center align title */
+        }
+    
+        .text-center .btn {
+            text-align: center; /* Center align buttons */
+            width: auto; /* Adjust button width */
             margin-top: 15px;
         }
-    }
-</style>
-
+    
+        .text-danger {
+            font-size: 0.9rem;
+        }
+    
+        /* Center-align buttons */
+        .form-group.text-center {
+            display: flex;
+            justify-content: center;
+        }
+    
+        /* Mobile responsiveness */
+        @media (max-width: 767px) {
+            .col-lg-6 {
+                width: 100%;
+                padding: 15px;
+            }
+    
+            .display-6 {
+                font-size: 1.25rem; /* Smaller font size on mobile */
+            }
+    
+            .form-control-lg {
+                font-size: 1rem; /* Adjust font size for inputs */
+                padding: 10px;
+            }
+    
+            .wood-btn {
+                font-size: 1rem; /* Adjust button font size for smaller screens */
+                padding: 10px 15px;
+            }
+        }
+    </style>
 
     <script>
         document.getElementById('changePasswordForm').addEventListener('submit', function(event) {

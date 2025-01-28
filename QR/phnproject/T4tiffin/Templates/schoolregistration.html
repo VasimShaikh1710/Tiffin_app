@@ -1,253 +1,255 @@
 {% extends 'base.html' %}
 
-{% block title %}Student Registration - T4tiffin{% endblock %}
+{% block title %}School Register - T4tiffin{% endblock %}
 
-{% load static  %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-4">
 
-    <!-- Display Messages -->
-    {% if messages %}
-        <div class="col-lg-6 mx-auto">
-            {% for message in messages %}
-                <div class="alert alert-{{ message.z }} alert-dismissible fade show text-center small-message" role="alert">
-                    {{ message }}
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            {% endfor %}
-        </div>
-    {% endif %}
-
     <div class="p-5 m-4 shadow-lg rounded">
 
-        <!-- Student Registration Section -->
-        <div class="col-lg-6 mx-auto border pt-4 rounded bg-light p-5">
-            <div class="text-center">
-                <h5 class="display-6 text-primary">Student Registration</h5>
-                <hr class="w-50 mx-auto">
+            <!-- School Registration Section -->
+            <div class="col-lg-6 mx-auto border pt-4 rounded bg-light p-5">
+                <div class="text-center">
+                    <h5 class="display-6 text-primary">School Registration</h5>
+                    <hr class="w-50 mx-auto">
+                </div>
+
+                <!-- Display Success or Error Messages -->
+                {% if messages %}
+                    <div id="message-container">
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} text-center" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <form action="/schoolregistration" method="POST" id="schoolRegistrationForm">
+                    {% csrf_token %}
+
+                    <!-- School Name -->
+                    <div class="form-group">
+                        <label for="school_name" class="font-weight-bold">School Name</label>
+                        <input type="text" name="school_name" id="school_name" class="form-control form-control-lg" placeholder="Enter school name" required>
+                        <small class="text-danger" id="schoolNameError"></small>
+                    </div>
+
+                    <!-- Username -->
+                    <div class="form-group">
+                        <label for="username" class="font-weight-bold">Username</label>
+                        <input type="text" name="username" id="username" class="form-control form-control-lg" placeholder="Enter username" required>
+                    </div>
+
+                    <!-- School ID -->
+                    <div class="form-group">
+                        <label for="school_id" class="font-weight-bold">School ID</label>
+                        <input type="text" name="school_id" id="school_id" class="form-control form-control-lg" placeholder="Enter school ID" required>
+                        <small class="text-danger" id="schoolIdError"></small>
+                    </div>
+
+                    <!-- Email ID -->
+                    <div class="form-group">
+                        <label for="Email" class="font-weight-bold">Email ID</label>
+                        <input type="text" name="Email" id="Email" class="form-control form-control-lg" placeholder="Enter Email ID" required>
+                    </div>
+
+                    <!-- Contact -->
+                    <div class="form-group">
+                        <label for="contact" class="font-weight-bold">Contact</label>
+                        <input type="text" name="contact" id="Address" class="form-control form-control-lg" placeholder="Enter School contact" required>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="form-group">
+                        <label for="password" class="font-weight-bold">Password</label>
+                        <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="********" required>
+                        <small class="text-danger" id="passwordError"></small>
+                    </div>
+
+                    <!-- Address -->
+                    <div class="form-group">
+                        <label for="Address" class="font-weight-bold">Address</label>
+                        <input type="text" name="Address" id="Address" class="form-control form-control-lg" placeholder="Enter School Address" required>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="form-group text-center d-flex justify-content-center">
+                        <input class="btn wood-btn px-5 py-3" type="submit" value="Register">
+                    </div>
+
+
+                </form>
             </div>
-
-            <form action="/student_registration/" method="POST" id="registrationForm">
-                {% csrf_token %}
-
-                <!-- Student Name -->
-                <div class="form-group">
-                    <label for="student_name" class="font-weight-bold">Student Name</label>
-                    <input type="text" name="student_name" id="student_name" class="form-control form-control-lg" placeholder="Enter student name">
-                    <small class="text-danger" id="studentNameError"></small>
-                </div>
-
-                <!-- Parent Name -->
-                <div class="form-group">
-                    <label for="parent_name" class="font-weight-bold">Parent Name</label>
-                    <input type="text" name="parent_name" id="parent_name" class="form-control form-control-lg" placeholder="Enter parent name">
-                    <small class="text-danger" id="parentNameError"></small>
-                </div>
-
-                <!-- Parent Mobile -->
-                <div class="form-group">
-                    <label for="phone" class="font-weight-bold">Parent Mobile</label>
-                    <input type="number" name="phone" id="phone" class="form-control form-control-lg" placeholder="9656989591">
-                    <small class="text-danger" id="phoneError"></small>
-                </div>
-
-                <!-- Standard -->
-                <div class="form-group">
-                    <label for="standard" class="font-weight-bold">Standard</label>
-                    <input type="text" name="standard" id="standard" class="form-control form-control-lg" placeholder="Enter standard">
-                    <small class="text-danger" id="standardError"></small>
-                </div>
-
-                <!-- Division -->
-                <div class="form-group">
-                    <label for="division" class="font-weight-bold">Division</label>
-                    <input required type="text" name="division" id="division" class="form-control form-control-lg" placeholder="Enter division">
-                    <small class="text-danger" id="divisionError"></small>
-                </div>
-
-                <!-- Roll no -->
-                <div class="form-group">
-                    <label for="roll_no" class="font-weight-bold">Roll NO</label>
-                    <input required type="text" name="roll_no" id="roll_no" class="form-control form-control-lg" placeholder="Enter roll_no">
-                    <small class="text-danger" id="rollNoError"></small>
-                </div>
-
-                <!-- Username -->
-                <div class="form-group">
-                    <label for="username" class="font-weight-bold">Username</label>
-                    <input type="text" name="Username" id="username" class="form-control form-control-lg" placeholder="abc123">
-                    <small class="text-danger" id="usernameError"></small>
-                </div>
-
-                <!-- Password -->
-                <div class="form-group">
-                    <label for="password" class="font-weight-bold">Password</label>
-                    <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="********">
-                    <small class="text-danger" id="passwordError"></small>
-                </div>
-
-                <!-- Address -->
-                <div class="form-group">
-                    <label for="address" class="font-weight-bold">Address</label>
-                    <input required type="text" name="address" id="address" class="form-control form-control-lg" placeholder="Enter address">
-                    <small class="text-danger" id="addressError"></small>
-                </div>
-
-                <hr>
-
-                <!-- Submit Button -->
-                <div class="form-group text-center">
-                    <input class="btn wood-btn px-5 py-3" type="submit" value="Register">
-                </div>
-            </form>
-
-            <!-- Go to Home Button -->
-            <div class="text-center mt-4">
-                <a href="/home" class="btn wood-btn px-5 py-3">Go to Dashboard</a>
-            </div>
-
         </div>
     </div>
-</div>
 
-<style>
-    /* Set the background image */
-    body {
-        background-image: url("{% static 'images/students_registration.jpg' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
-    }
-
-    /* Darker Wood Skin Button Styling */
-    .wood-btn {
-        background: linear-gradient(to right, #8b4513, #6f4f1a); /* Darker wood tones */
-        border: 2px solid #3e2a47; /* Darker border color */
-        border-radius: 8px;
-        color: #fff;
-        font-size: 1rem;
-        text-transform: uppercase;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .wood-btn:hover {
-        background: linear-gradient(to right, #6f4f1a, #3e2a47); /* Darker hover effect */
-        border: 2px solid #3e2a47;
-        color: #fff;
-        transform: scale(1.05);
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 767px) {
-        .col-lg-6 {
-            width: 100%;
-            padding: 15px;
+    <style>
+        /* Set the background color similar to the login page */
+        body {
+            background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+            color: #333333;
+            background-color: #FFCC80; /* Fallback color */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
         }
 
-        .display-6 {
-            font-size: 1.25rem; /* Smaller font size on mobile */
+        .container {
+            max-width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh; /* Full viewport height */
+            box-sizing: border-box;
+        }
+
+        .p-5.m-4 {
+            width: 100%;
+            max-width: 550px; /* Increased max-width for wider form */
+            background-color: #fff; /* White background for the form */
+            border-radius: 15px; /* Rounded corners for the form */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+            padding: 20px 30px; /* Slightly increased padding */
+            transition: all 0.3s ease-in-out;
+        }
+
+        .p-5.m-4:hover {
+            transform: translateY(-5px); /* Hover effect to lift the form */
+        }
+
+        .col-lg-6 {
+            width: 100%;
+            padding: 10px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1rem; /* Reduced margin between fields */
         }
 
         .form-control-lg {
-            font-size: 1rem; /* Adjust font size for inputs */
-            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            padding: 10px; /* Reduced padding */
+            font-size: 1rem; /* Slightly smaller font size */
+            transition: all 0.3s ease;
         }
 
-        .btn {
-            font-size: 1rem; /* Smaller font size for buttons */
-            padding: 15px 30px;
+        .form-control-lg:focus {
+            border-color: #ff4c9e; /* Highlight border color on focus */
+            box-shadow: 0 0 5px rgba(255, 76, 158, 0.5); /* Focus glow effect */
         }
 
-        .p-5, .m-4 {
-            padding: 10px !important;
-            margin: 10px !important;
+        .wood-btn {
+            background: linear-gradient(to right, #ff8c00, #ff4c9e); /* Gradient Background */
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1.1rem; /* Slightly smaller font size */
+            text-transform: uppercase;
+            padding: 8px 20px; /* Reduced padding */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            width: 100%; /* Makes button take full width */
         }
 
-        .col-lg-6, .col-md-8 {
-            margin: 0 auto;
-            padding: 0;
-        }
-    }
-</style>
-
-<script>
-    document.getElementById('registrationForm').addEventListener('submit', function(event) {
-        let isValid = true;
-
-        // Field values
-        const phone = document.getElementById('phone').value;
-        const password = document.getElementById('password').value;
-        const standard = document.getElementById('standard').value.toUpperCase();
-        const division = document.getElementById('division').value.toUpperCase();
-        const studentName = document.getElementById('student_name').value;
-        const parentName = document.getElementById('parent_name').value;
-        const rollNo = document.getElementById('roll_no').value;
-        const username = document.getElementById('username').value;
-        const address = document.getElementById('address').value;
-
-        // Regular expressions
-        const phoneRegex = /^[987]\d{9}$/;
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        const standardRegex = /^(LKG|UKG|[1-9]|1[0-2])$/;
-        const divisionRegex = /^[A-D0-9]+$/;
-        const rollNoRegex = /^[A-Za-z0-9]+$/;
-        const nameRegex = /^[A-Za-z\s]+$/;
-
-        // Clear previous errors
-        document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
-
-        // Validation
-        if (!nameRegex.test(studentName)) {
-            document.getElementById('studentNameError').textContent = 'Student name must contain only alphabets and spaces.';
-            isValid = false;
+        .wood-btn:hover {
+            background: linear-gradient(to right, #ff4c9e, #ff8c00); /* Reverse gradient on hover */
+            transform: scale(1.05); /* Slight zoom on hover */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
         }
 
-        if (!nameRegex.test(parentName)) {
-            document.getElementById('parentNameError').textContent = 'Parent name must contain only alphabets and spaces.';
-            isValid = false;
+        .wood-btn:active {
+            transform: scale(1); /* Reset zoom on click */
         }
 
-        if (!phoneRegex.test(phone)) {
-            document.getElementById('phoneError').textContent = 'Phone number must start with 9, 8, or 7 and be 10 digits long.';
-            isValid = false;
+        .text-center h5 {
+            font-size: 1.5rem; /* Reduced font size */
+            font-weight: bold;
+            color: #ff4c9e;
+            text-align: center; /* Center align title */
         }
 
-        if (!passwordRegex.test(password)) {
-            document.getElementById('passwordError').textContent = 'Password must be at least 8 characters, contain 1 uppercase, 1 number, and 1 special character.';
-            isValid = false;
+        .text-center .btn {
+            text-align: center; /* Center align buttons */
+            width: auto; /* Adjust button width */
+            margin-top: 15px;
         }
 
-        if (!standardRegex.test(standard)) {
-            document.getElementById('standardError').textContent = 'Invalid standard. Please enter a valid standard (LKG, UKG, or 1-12).';
-            isValid = false;
+        .text-danger {
+            font-size: 0.9rem;
         }
 
-        if (!divisionRegex.test(division)) {
-            document.getElementById('divisionError').textContent = 'Invalid division. Please enter a valid division.';
-            isValid = false;
+        /* Center-align buttons */
+        .form-group.text-center {
+            display: flex;
+            justify-content: center;
         }
 
-        if (!rollNoRegex.test(rollNo)) {
-            document.getElementById('rollNoError').textContent = 'Invalid roll number.';
-            isValid = false;
-        }
+        /* Mobile responsiveness */
+        @media (max-width: 767px) {
+            .col-lg-6 {
+                width: 100%;
+                padding: 15px;
+            }
 
-        if (!username) {
-            document.getElementById('usernameError').textContent = 'Username is required.';
-            isValid = false;
-        }
+            .display-6 {
+                font-size: 1.25rem; /* Smaller font size on mobile */
+            }
 
-        if (!address) {
-            document.getElementById('addressError').textContent = 'Address is required.';
-            isValid = false;
-        }
+            .form-control-lg {
+                font-size: 1rem; /* Adjust font size for inputs */
+                padding: 10px;
+            }
 
-        if (!isValid) {
-            event.preventDefault();
+            .wood-btn {
+                font-size: 1rem; /* Adjust button font size for smaller screens */
+                padding: 10px 15px;
+            }
         }
-    });
-</script>
+    </style>
+
+    <script>
+        document.getElementById('schoolRegistrationForm').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Field values
+            const schoolName = document.getElementById('school_name').value;
+            const schoolId = document.getElementById('school_id').value;
+            const password = document.getElementById('password').value;
+
+            // Regular expressions
+            const nameRegex = /^[A-Za-z\s]+$/;
+            const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+
+            // Clear previous errors
+            document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
+
+            // Validation
+            if (!nameRegex.test(schoolName)) {
+                document.getElementById('schoolNameError').textContent = 'School name must contain only alphabets and spaces.';
+                isValid = false;
+            }
+
+            if (!schoolId) {
+                document.getElementById('schoolIdError').textContent = 'School ID must be numeric.';
+                isValid = false;
+            }
+
+            if (!passwordRegex.test(password)) {
+                document.getElementById('passwordError').textContent = 'Password must be at least 8 characters, contain 1 uppercase letter, 1 number, and 1 special character.';
+                isValid = false;
+            }
+
+            if (!isValid) {
+                event.preventDefault();
+            }
+        });
+    </script>
 
 {% endblock %}

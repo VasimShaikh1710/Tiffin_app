@@ -8,7 +8,7 @@ from django.core.files import File
 
 class Orders(models.Model):
 
-    STATUS_CHOICES =[
+    STATUS_CHOICES = [
         ('pending', 'Pending'),
         ('confirmed', 'Confirmed'),
         ('delivered', 'Delivered'),

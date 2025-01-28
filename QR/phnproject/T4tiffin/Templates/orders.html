@@ -3,68 +3,151 @@
 {% load static %}
 
 {% block content %}
-<div class="container mt-4">
-    <h3 class="text-primary">Order Management</h3>
+<div class="container mt-4 text-center">
+    <h3 class="text-primary mb-4" style="font-size: 2.5rem; font-weight: bold; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); text-align: center;">Order Management</h3>
 
     {% if orders %}
-        <div class="card mt-4">
-            <div class="card-header">
-                <h5 class="text-success">Orders for Your School</h5>
+        <div class="card shadow-lg border-0 mt-4" style="width: 80%; margin: 0 auto;">
+            <div class="card-header bg-gradient text-white text-center" style="background: linear-gradient(135deg, #ff8c00, #ff4c9e); font-size: 1.75rem; font-weight: bold; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); text-align: center;">
+                Orders for Your School
             </div>
             <div class="card-body">
-                <ul class="list-group">
+                <ul class="list-group" style="font-family: 'Arial', sans-serif; font-size: 1rem; line-height: 1.5;">
                     {% for order in orders %}
-                        <li class="list-group-item">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div>
-                                    <p><strong>Student:</strong> {{ order.username.student_name }}</p>
-                                    <p><strong>Order ID:</strong> {{ order.id }}</p>
-                                    <p><strong>Address:</strong> {{ order.address }}</p>
-                                    <p><strong>Additional Notes:</strong> {{ order.additional_note }}</p>
-                                    <p><strong>Status:</strong> {{ order.get_order_status_display }}</p>
-                                    <p><strong>Created At:</strong> {{ order.created_at|date:"d M Y H:i" }}</p>
+                        <li class="list-group-item mb-4 shadow-sm" style="padding: 20px; border-radius: 10px; position: relative; overflow: hidden;">
+                            <div class="d-flex justify-content-between align-items-start">
+                                <!-- Left Box with Order Status Update -->
+                                <div class="left-box">
+                                    <h5 class="text-primary">🔄 Update Order Status</h5>
+                                    <form action="{% url 'update_order_status' order.id %}" method="POST" class="mt-2">
+                                        {% csrf_token %}
+                                        <label for="order_status_{{ order.id }}" class="form-label">Select Order Status:</label>
+                                        <select name="order_status" id="order_status_{{ order.id }}" class="form-select" onchange="this.form.submit()">
+                                            {% for status, status_label in order.STATUS_CHOICES %}
+                                                <option value="{{ status }}" {% if order.order_status == status %}selected{% endif %}>
+                                                    {{ status_label }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+                                    </form>
+                                    <div class="status-tips mt-3">
+                                        <p><strong>Tip:</strong> Make sure to update the status promptly to keep the order process smooth.</p>
+                                        <p><strong>Note:</strong> Always double-check the student’s details before confirming the status.</p>
+                                    </div>
                                 </div>
-                               
-                            </div>
-                            <hr>
-                            <form action="{% url 'update_order_status' order.id %}" method="POST" class="mt-2">
-                                {% csrf_token %}
-                                <label for="order_status_{{ order.id }}">Update Status:</label>
-                                <select name="order_status" id="order_status_{{ order.id }}" class="form-control" onchange="this.form.submit()">
-                                    {% for status, status_label in order.STATUS_CHOICES %}
-                                        <option value="{{ status }}" {% if order.order_status == status %}selected{% endif %}>
-                                            {{ status_label }}
-                                        </option>
-                                    {% endfor %}
-                                </select>
 
-                                  
-                            </form>
+                                <!-- Right Box with Order Details -->
+                                <div class="right-box">
+                                    <h5 class="text-primary">📊 Order Details</h5>
+                                    <p><strong>👤 Student:</strong> {{ order.username.student_name }}</p>
+                                    <p><strong>🆔 Order ID:</strong> {{ order.id }}</p>
+                                    <p><strong>📍 Address:</strong> {{ order.address }}</p>
+                                    <p><strong>📝 Additional Notes:</strong> {{ order.additional_note }}</p>
+                                    <p><strong>📦 Status:</strong> <span class="badge bg-success">{{ order.get_order_status_display }}</span></p>
+                                    <p><strong>⏰ Created At:</strong> {{ order.created_at|date:"d M Y H:i" }}</p>
+                                </div>
+                            </div>
+                            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, #ff4c9e, #ff8c00);"></div>
                         </li>
                     {% endfor %}
-                    
                 </ul>
-                
             </div>
-                       
         </div>
-       
     {% else %}
-        <p class="alert alert-warning mt-4">No orders found for your school.</p>
+        <p class="alert alert-warning text-center mt-4">No orders found for your school.</p>
     {% endif %}
-    <!-- Go to Home Button -->
-    <div class="text-center mt-4">
-        <a href="/home" class="btn btn-primary btn-lg">Go to Dashboard</a>
-    </div>
+
 </div>
 
 <style>
-    /* Set the background image */
     body {
-        background-image: url("{% static 'images/order.jpg' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
+        background: linear-gradient(135deg, #ff8c00, #ff4c9e);
+        color: #333;
+    }
+
+    .card-header {
+        font-size: 1.75rem;
+        font-weight: bold;
+    }
+
+    .list-group-item {
+        background: #fff;
+        margin-bottom: 10px;
+        padding: 15px;
+        font-family: 'Arial', sans-serif;
+        font-size: 1rem;
+        line-height: 1.5;
+        transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s ease;
+        width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        border-radius: 0;
+        height: auto;
+    }
+
+    .list-group-item:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.2);
+        background-color: #fff;
+    }
+
+    .badge {
+        font-size: 0.9rem;
+        padding: 0.5em 1em;
+    }
+
+    .form-select {
+        border-radius: 10px;
+        width: 100%;
+    }
+
+    .btn-lg {
+        padding: 0.75rem 1.5rem;
+        font-size: 1.25rem;
+        font-weight: bold;
+    }
+
+    /* Flexbox for Left and Right Boxes */
+    .d-flex {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .left-box,
+    .right-box {
+        width: 48%; /* Adjusted to fit side by side */
+        padding: 15px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.9);
+        box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .left-box:hover,
+    .right-box:hover {
+        transform: translateY(-5px);
+        background-color: #fffae6;
+    }
+
+    .status-tips {
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+    /* Text box styling */
+    .input-box {
+        width: 100%;
+        padding: 8px;
+        border-radius: 5px;
+        border: 2px solid #ff4c9e;
+        margin-top: 10px;
+        transition: border 0.3s ease;
+    }
+
+    .input-box:focus {
+        border: 2px solid #ff8c00;
+        outline: none;
     }
 </style>
 

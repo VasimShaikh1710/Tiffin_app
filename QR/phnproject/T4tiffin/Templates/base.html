@@ -3,95 +3,204 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>T4tiffin</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <title>Tiffin Service</title>
     <style>
-        /* Navbar styles */
-        .navbar {
-            background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+        /* General Body Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333333;
+            line-height: 1.6;
         }
 
-        .navbar .navbar-brand img {
-            max-width: 100%; /* Ensure the logo scales with the screen size */
-            height: auto;
-            max-height: 50px; /* Set a maximum height for consistency */
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid #ff5a36; /* Border for header */
         }
 
-        .navbar .nav-link {
-            color: white !important;
+        header img {
+            width: 100px; /* Logo size */
+            margin-right: 20px; /* Space between logo and text */
         }
 
-        /* Transparent Login/Logout Button */
-        .navbar .nav-link.login-btn {
-            background-color: rgba(255, 255, 255, 0.2); /* Transparent background */
-            color: white !important;
-            padding: 8px 16px;
-            border-radius: 4px;
+        header h1 {
+            font-size: 3em;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Shadow effect for text */
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #333333;
+            overflow: hidden;
+            padding: 15px 0;
             text-align: center;
-            font-weight: bold;
+        }
+
+        nav a {
+            color: white;
+            display: inline-block;
+            padding: 14px 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin: 0 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: #ff5a36;
+            transform: scale(1.05);
+        }
+
+        nav .login-btn {
+            background-color: #ff4c9e;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
-        .navbar .nav-link.login-btn:hover {
-            background-color: rgba(255, 255, 255, 0.4); /* Slightly opaque on hover */
+        nav .login-btn:hover {
+            background-color: #ff5a36;
         }
 
-        .navbar-toggler-icon {
-            color: white !important; /* Make toggler icon visible */
+        /* Hero Section */
+        .hero-section {
+            background-color: #FFCC80; /* Light orange background */
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
         }
 
-        /* Adjust the navbar-toggler visibility for smaller screens */
-        @media (max-width: 768px) {
-            .navbar-toggler-icon {
-                background-color: white !important; /* Ensuring the toggle icon is visible on small screens */
-            }
+        .hero-section h1 {
+            font-size: 4em;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 20px;
         }
+
+        .cta-button {
+            background-color: #ff4c9e;
+            padding: 15px 30px;
+            color: white;
+            font-size: 1.3em;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff5a36;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 40px 0;
+            color: #ff5a36;
+        }
+
+        /* Features Section */
+        .features {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-item {
+            width: 30%;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-item h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-item {
+            width: 48%;
+            background-color: #f4f4f9;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .testimonial-item p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-item small {
+            font-size: 1em;
+            color: #7f8c8d;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: #263238;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
     </style>
 </head>
 <body>
-  {% load static %}
-  <nav class="navbar navbar-expand-lg">
-    <div class="container-fluid">
-      <!-- Logo -->
-      <a class="navbar-brand" href="/">
-          <img src="{% static 'images/logo.jpeg' %}" alt="T4tiffin Logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <!-- Home Link -->
-          <li class="nav-item">
-            <a class="nav-link" href="/">Home</a>
-          </li>
-          <!-- About Link -->
-          <li class="nav-item">
-            <a class="nav-link" href="/about">About</a>
-          </li>
-          <!-- Contact Link -->
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">Contact</a>
-          </li>
-        </ul>
-        <!-- Dynamic Login/Logout Button -->
-        <ul class="navbar-nav mb-2 mb-lg-0">
-          {% if request.session.username %}
-            <li class="nav-item">
-              <a class="nav-link login-btn" href="/logout">Logout</a>
-            </li>
-          {% else %}
-            <li class="nav-item">
-              <a class="nav-link login-btn" href="/login">Login</a>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
-    </div>
-  </nav>
+    {% load static %}
+<header>
+    <img src="{% static 'images/logo.png' %}" alt="Tiffin Service Logo">
+    <h1>Tiffin</h1>
+</header>
 
-  {% block content %}
-  {% endblock %}
+<nav>
+    <a href="/">Home</a>
+    <a href="#features">Features</a>
+    <a href="#testimonials">Testimonials</a>
+    <a href="#contact">Contact</a>
+    {% if request.session.username %}
+    <a href="/logout" class="login-btn">Logout</a> <!-- Logout Button -->
+{% else %}
+    <a href="/login" class="login-btn">Login</a> <!-- Login Button -->
+{% endif %}
+</nav>
+
+{% block content %}
+{% endblock %}
+
 </body>
 </html>

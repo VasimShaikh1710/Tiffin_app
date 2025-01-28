@@ -1,275 +1,334 @@
-{% extends 'base.html' %}
-
-{% block title %}Home - T4tiffin{% endblock %}
-
-{% load static %}
+{% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-3">
-    {% if messages %}
-        <div class="row justify-content-center">
-            <div class="col-lg-8">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    {% endif %}
-</div>
 
-<div class="container-fluid mt-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-
-            {% if user_details %}
-            <div class="card futuristic-card shadow-xl mb-4">
-                <div class="card-header text-center bg-gradient">
-                    <h5 class="mb-0">Student Profile</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="fw-bold text-light">Student Name:</h6>
-                    <p class="fs-4 text-white">{{ user_details.student_name }}</p>
-                    <h6 class="fw-bold text-light">Age:</h6>
-                    <p class="fs-4 text-white">{{ user_details.age }} years</p>
-                    <h6 class="fw-bold text-light">Grade:</h6>
-                    <p class="fs-4 text-white">{{ user_details.grade }}</p>
-                </div>
-            </div>
-            {% endif %}
-
-            <!-- Action Boxes -->
-            <div class="action-boxes">
-                <div class="row justify-content-center g-4">
-                    <div class="col-md-3 col-6">
-                        <a href="/student_registration" class="box futuristic-box registration-box">
-                            <i class="fas fa-shopping-cart"></i> Registration
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <a href="/orders" class="box futuristic-box orders-box">
-                            <i class="fas fa-list-alt"></i> Orders
-                            {% if pending_orders_count > 0 %}
-                                <span class="order-count-badge">{{ pending_orders_count }}</span>
-                            {% endif %}
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <a href="/registered" class="box futuristic-box registered-box">
-                            <i class="fas fa-qrcode"></i> Registered
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-6">
-                        <a href="/contact" class="box futuristic-box contact-box">
-                            <i class="fas fa-user-edit"></i> Contact
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-6 mt-4 mt-md-0">
-                        <a href="/scanner" class="box futuristic-box scanner-box">
-                            <i class="fas fa-map-marker-alt"></i> Scanner
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-6 mt-4 mt-md-0">
-                        <a href="/changepass" class="box futuristic-box changepass-box">
-                            <i class="fas fa-key"></i> Change Password
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<style>
-    /* Set the background image */
-    body {
-        background-image: url("{% static 'images/home.png' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
-    }
-
-    /* Floating boxes for actions */
-    .box {
-        width: 100%;
-        height: 150px;
-        background-color: #D2B48C; /* Wood skin color */
-        color: #333;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 15px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        font-size: 18px;
-        font-weight: 600;
-        text-align: center;
-        text-decoration: none;
-        transition: all 0.3s ease;
-        cursor: pointer;
-        padding: 10px;
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        background-color: #A6784B; /* Darker wood on hover */
-        color: #fff;
-    }
-
-    .box i {
-        font-size: 30px;
-        margin-right: 10px;
-    }
-
-    /* Color of boxes */
-    .registration-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .orders-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-        position: relative;
-    }
-
-    .registered-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .contact-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .scanner-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .changepass-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    .passwordrequest-box {
-        background: linear-gradient(45deg, #C49A6C, #D2B48C); /* Wood texture gradient */
-    }
-
-    /* Red dot styling */
-    .order-count-badge {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        width: 20px;
-        height: 20px;
-        background-color: red;
-        color: white;
-        font-size: 12px;
-        font-weight: bold;
-        text-align: center;
-        border-radius: 50%;
-        line-height: 20px;
-    }
-
-    /* Card styling */
-    .card-header {
-        background-color: #007bff; /* Custom Blue */
-        border-bottom: 3px solid #0056b3; /* Darker border for the header */
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-
-    .transparent-bg {
-        background-color: transparent; /* Make the card body transparent */
-    }
-
-    .fw-bold {
-        font-weight: 600;
-        color: #333;
-    }
-
-    .fs-4 {
-        font-size: 1.25rem;
-        color: #333;
-        line-height: 1.6;
-    }
-
-    .shadow-xl {
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-    }
-
-    .card {
-        border-radius: 15px;
-    }
-
-    /* Additional styling for spacing */
-    .mb-4 {
-        margin-bottom: 30px;
-    }
-
-    .mt-5 {
-        margin-top: 50px;
-    }
-
-    .text-center {
-        text-align: center;
-    }
-
-    /* Style for small message */
-    .small-message {
-        font-size: 0.9rem;
-    }
-
-    /* Hover effect for action boxes */
-    .box:hover {
-        transform: translateY(-10px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
-        background-color: #A6784B; /* Darker wood on hover */
-        color: #fff;
-    }
-
-    /* Spacing and alignment for action boxes */
-    .action-boxes .row {
-        margin-top: 20px;
-    }
-
-    .action-boxes .col-md-3 {
-        margin-bottom: 20px;
-    }
-
-    /* Mobile responsiveness */
-    @media (max-width: 768px) {
-        .box {
-            height: auto;
-            padding: 20px;
-            font-size: 16px;
+<head>
+    <style>
+        /* General Body Styles */
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333333;
+            line-height: 1.6;
         }
 
-        .col-6 {
+        /* Header Section */
+        header {
+            background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+            color: white;
+            text-align: center;
+            padding: 80px 20px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+            border-bottom: 5px solid #ff5a36; /* Border for header */
+        }
+
+        header img {
+            width: 100px;
+            margin-bottom: 10px;
+        }
+
+        header h1 {
+            font-size: 3.5em;
+            margin: 0;
+            font-weight: 700;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3); /* Shadow effect for text */
+        }
+
+        /* Navigation Bar */
+        nav {
+            background-color: #333333;
+            overflow: hidden;
+            padding: 15px 0;
+            text-align: center;
+        }
+
+        nav a {
+            color: white;
+            display: inline-block;
+            padding: 14px 30px;
+            text-decoration: none;
+            font-size: 1.1em;
+            margin: 0 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        nav a:hover {
+            background-color: #ff5a36;
+            transform: scale(1.05);
+        }
+
+        nav .login-btn {
+            background-color: #ff4c9e;
+            color: white;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        nav .login-btn:hover {
+            background-color: #ff5a36;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            background-color: #FFCC80; /* Light orange background */
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        .hero-section h1 {
+            font-size: 4em;
+            font-weight: bold;
+            color: #333333;
             margin-bottom: 20px;
         }
 
-        .col-md-3 {
-            flex: 0 0 100%;
-            max-width: 100%;
+        .cta-button {
+            background-color: #ff4c9e;
+            padding: 15px 30px;
+            color: white;
+            font-size: 1.3em;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
-        .action-boxes .row {
+        .cta-button:hover {
+            background-color: #ff5a36;
+        }
+
+        /* Section Title */
+        .section-title {
+            text-align: center;
+            font-size: 2.5em;
+            margin: 40px 0;
+            color: #ff5a36;
+        }
+
+        /* Features Section */
+        .features {
             display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 60px;
+        }
+
+        .feature-item {
+            width: 30%;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-item h3 {
+            font-size: 1.8em;
+            margin-bottom: 20px;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 60px;
+        }
+
+        .testimonial-item {
+            width: 48%;
+            background-color: #f4f4f9;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .testimonial-item p {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .testimonial-item small {
+            font-size: 1em;
+            color: #7f8c8d;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: #263238;
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+        }
+
+        /* School Registration Section */
+        #school-registration {
+            background-color: #f8f9fa; /* Light background color */
+            padding: 50px 20px;
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .registration-info {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
             flex-wrap: wrap;
         }
-    }
-</style>
 
+        .registration-text {
+            width: 60%;
+            font-size: 1.2em;
+            color: #333;
+            line-height: 1.6;
+        }
 
-<script>
-    // Hide the message after 3 seconds
-    setTimeout(function() {
-        var messages = document.querySelectorAll('.alert');
-        messages.forEach(function(message) {
-            message.style.display = 'none';
-        });
-    }, 3000);
-</script>
+        .cta-button {
+            background-color: #ff4c9e;
+            padding: 20px 40px;
+            color: white;
+            font-size: 1.5em;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background-color: #ff5a36;
+            transform: scale(1.05);
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            header {
+                padding: 60px 20px;
+            }
+
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .features {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .feature-item {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+
+            .testimonials {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .testimonial-item {
+                width: 80%;
+                margin-bottom: 20px;
+            }
+
+            .registration-info {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            .registration-text {
+                width: 100%;
+                font-size: 1.1em;
+            }
+
+            .cta-button {
+                font-size: 1.3em;
+            }
+        }
+
+        /* For smaller mobile screens */
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 2em;
+            }
+
+            .cta-button {
+                padding: 15px 30px;
+                font-size: 1.1em;
+            }
+
+            .feature-item h3 {
+                font-size: 1.6em;
+            }
+
+            .testimonial-item p {
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+
+<section id="features" class="container">
+    <h2 class="section-title">Our Features</h2>
+    <div class="features">
+        <div class="feature-item">
+            <h3>QR Code Scanning</h3>
+            <p>Quickly scan the QR code to get your tiffin delivered right to your child's classroom.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Fast Delivery</h3>
+            <p>Our team ensures your tiffin reaches the student in no time!</p>
+        </div>
+        <div class="feature-item">
+            <h3>Easy Ordering</h3>
+            <p>Parents can easily place an order for the tiffin through our platform with a few clicks.</p>
+        </div>
+    </div>
+</section>
+
+<section id="testimonials" class="container">
+    <h2 class="section-title">What Our Users Say</h2>
+    <div class="testimonials">
+        <div class="testimonial-item">
+            <p>"This service is a lifesaver! My kid never goes without his tiffin now!"</p>
+            <small>- A Happy Parent</small>
+        </div>
+        <div class="testimonial-item">
+            <p>"Fast, reliable, and easy to use. A must-have for every school!"</p>
+            <small>- School Staff Member</small>
+        </div>
+    </div>
+</section>
+
+<!-- School Registration Section -->
+<section id="school-registration" class="container">
+    <h2 class="section-title">Register Your School</h2>
+    <div class="registration-info">
+        <div class="registration-text">
+            <p>Join our growing network of schools providing quick and reliable tiffin delivery to students. Streamline the process for parents and make sure every student gets their tiffin without delay. It’s easy, efficient, and beneficial for everyone!</p>
+            <p><strong>Don’t miss out! Register your school today and make lunchtime stress-free for all!</strong></p>
+        </div>
+        <a href="/schoolregistration" class="cta-button">Register Your School</a> <!-- Registration Button -->
+    </div>
+</section>
+
+<section id="contact" class="contact-section">
+    <h2>Contact Us</h2>
+    <p>For more information, feel free to reach out to us!</p>
+    <p>Email: support@mytiffinservice.com</p>
+</section>
 
 {% endblock %}

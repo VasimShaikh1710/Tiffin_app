@@ -1,83 +1,206 @@
 {% extends 'base.html' %}
 
-{% block title %}Place Order - T4tiffin{% endblock %}
+{% block title %}Place Order - T4Tiffin{% endblock %}
 {% load static %}
 {% block content %}
 
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
-    <div class="col-lg-5 p-4 border shadow-sm rounded bg-light">
-        <div class="text-center mb-4">
-            <h2 class="text-primary font-weight-bold">Place Your Order</h2>
-            <p class="text-muted">Fill in the details below to complete your order</p>
-            <hr>
-        </div>
-
-        {% if error %}
-        <div class="alert alert-danger text-center" role="alert">
-            {{ error }}
-        </div>
-        {% endif %}
-
-        <form action="/place_order/" method="POST">
+<div class="form-container">
+    <div class="order-box">
+        <h2 class="form-title">Place Your Order</h2>
+        <p class="form-description">Please provide your details below to place the order.</p>
+        <form action = /place_order/ method="POST">
             {% csrf_token %}
-
+            
+            <!-- Address Field -->
             <div class="form-group">
-                <label for="address" class="font-weight-bold">Address</label>
+                <label for="address">📍 Address</label>
                 <textarea name="address" 
-                          id="address" 
-                          rows="3" 
-                          class="form-control form-control-lg" 
-                          placeholder="Enter your pickup address" 
-                          required></textarea>
+                id="address" 
+                rows="3"
+                class="form-control" 
+                placeholder="Enter your delivery address" required></textarea>
             </div>
-
+            
+            <!-- Additional Note Field -->
             <div class="form-group">
-                <label for="additional_notes" class="font-weight-bold">Additional Notes</label>
-                <textarea name="additional_notes" 
-                          id="additional_notes" 
-                          rows="3" 
-                          class="form-control form-control-lg" 
-                          placeholder="Add any special instructions or notes here" 
-                          required></textarea>
+                <label for="additional_note">📝 Additional Note</label>
+                <textarea id="additional_note" name="additional_note" class="form-control" placeholder="Any specific instructions?" rows="3"></textarea>
             </div>
+            
 
-            <div class="text-center mt-4">
-                <button type="submit" class="btn btn-wood btn-lg btn-block">
-                    Place Order
-                </button>
-            </div>
+            <!-- Submit Button -->
+            <button type="submit" class="btn-submit">Place Order</button>
         </form>
-        <!-- Back to Home Button -->
-        <div class="text-center mt-3">
-            <a href="{% url 'parent_dashboard' %}" class="btn btn-wood btn-lg">Back to Dashboard</a>
+    </div>
+    <!-- Informative Text Sidebar -->
+    <div class="info-sidebar">
+        <div class="info-box">
+            <p class="info-text">
+                Want to send your child's tiffin directly to school? Place an order with us and we'll ensure it's delivered right on time!
+            </p>
+        </div>
+        <div class="info-box">
+            <p class="info-text">
+                🕒 Order before 9 AM for same-day delivery. 
+                Our service is fast and reliable, ensuring your child never misses a meal!
+            </p>
+        </div>
+        <div class="info-box">
+            <p class="info-text">
+                🚚 We provide free delivery within the school area. 
+                No extra charges for quick deliveries!
+            </p>
         </div>
     </div>
 </div>
 
 <style>
-    body {
-        background-image: url("{% static 'images/place_order2.jpg' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
+    /* Center container on screen */
+    .form-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+        background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+        animation: fadeIn 1s ease-in-out;
     }
 
-    /* Wood skin color for the buttons */
-    .btn-wood {
-        background-color: #d18f56; /* Wood color */
-        color: white;
-        border: 2px solid #b76e2d;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        font-size: 18px;
-        font-weight: bold;
+    /* Order box */
+    .order-box {
+        width: 420px;
+        background-color: #ffffff;
+        border: 3px solid #ff5a36; /* Red border */
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        animation: slideIn 1s ease-out;
         transition: all 0.3s ease;
     }
 
-    .btn-wood:hover {
-        background-color: #b76e2d; /* Darker wood color on hover */
-        border-color: #9b4d20;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
-        transform: translateY(-3px); /* Slight lift on hover */
+    /* Form title and description */
+    .form-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+        color: #333;
+        animation: bounceIn 1s ease;
+    }
+
+    .form-description {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 20px;
+    }
+
+    /* Form group styling */
+    .form-group {
+        margin-bottom: 20px;
+        text-align: left;
+    }
+
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 8px;
+        color: #333;
+        font-size: 14px;
+    }
+
+    .form-control {
+        width: 100%;
+        border: 2px solid #ff5a36;
+        border-radius: 8px;
+        padding: 10px;
+        font-size: 14px;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: #ff4c9e;
+        box-shadow: 0 0 8px rgba(255, 76, 158, 0.5);
+    }
+
+    .form-control::placeholder {
+        color: #999;
+        font-style: italic;
+    }
+
+    /* Submit button styling */
+    .btn-submit {
+        width: 100%;
+        background-color: #ff8c00;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        padding: 12px;
+        border: none;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .btn-submit:hover {
+        background-color: #b76e2d;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-3px);
+    }
+
+    /* Informative Sidebar */
+    .info-sidebar {
+        position: absolute;
+        top: 50%;
+        left: 100%;
+        transform: translateY(-50%);
+        background-color: #000; /* Black background */
+        color: white;
+        padding: 20px;
+        border-radius: 10px;
+        width: 250px;
+        text-align: center;
+        opacity: 0; /* Hidden by default */
+        transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+    }
+
+    .info-sidebar.show {
+        opacity: 1; /* Show when hovered */
+        transform: translateX(-100%); /* Show it from the right side */
+    }
+
+    .info-box {
+        margin-bottom: 20px;
+        padding: 15px;
+        background-color: #333;
+        border-radius: 10px;
+    }
+
+    .info-text {
+        margin: 0;
+        font-weight: bold;
+        line-height: 1.5;
+        font-size: 14px;
+    }
+
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+        0% { transform: translateY(-50px); opacity: 0; }
+        100% { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes bounceIn {
+        0% { transform: translateY(-30px); opacity: 0; }
+        60% { transform: translateY(10px); opacity: 1; }
+        100% { transform: translateY(0); }
+    }
+
+    /* When hovering on form box */
+    .order-box:hover + .info-sidebar {
+        opacity: 1; /* Show sidebar when form box is hovered */
+        transform: translateX(-100%); /* Show it from the right */
     }
 </style>
 

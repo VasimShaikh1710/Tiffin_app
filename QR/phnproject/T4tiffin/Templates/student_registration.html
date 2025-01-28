@@ -2,16 +2,16 @@
 
 {% block title %}Student Registration - T4tiffin{% endblock %}
 
-{% load static  %}
+{% load static %}
 
 {% block content %}
 <div class="container mt-4">
 
-    <!-- Display Messages -->
+    <!-- Display Messages at the top of the page -->
     {% if messages %}
-        <div class="col-lg-6 mx-auto">
+        <div class="col-lg-6 mx-auto mb-4">
             {% for message in messages %}
-                <div class="alert alert-{{ message.z }} alert-dismissible fade show text-center small-message" role="alert">
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show text-center custom-message" role="alert">
                     {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -103,8 +103,8 @@
             </form>
 
             <!-- Go to Home Button -->
-            <div class="text-center mt-4">
-                <a href="/home" class="btn wood-btn px-5 py-3">Go to Dashboard</a>
+            <div class="form-group text-center">
+                <a href="/schoolpanel" class="btn wood-btn px-5 py-3">Back</a>
             </div>
 
         </div>
@@ -112,31 +112,133 @@
 </div>
 
 <style>
-    /* Set the background image */
+    /* Set the background color similar to the login page */
     body {
-        background-image: url("{% static 'images/students_registration.jpg' %}");
-        background-size: cover;
-        background-position: center center;
-        background-attachment: fixed;
+        background: linear-gradient(135deg, #ff8c00, #ff4c9e); /* Gradient Background */
+        color: #333333;
+        background-color: #FFCC80; /* Fallback color */
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    
+
+    .container {
+        max-width: 100%;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh; /* Full viewport height */
+        box-sizing: border-box;
+        flex-direction: column; /* Ensures content stacks vertically */
     }
 
-    /* Darker Wood Skin Button Styling */
-    .wood-btn {
-        background: linear-gradient(to right, #8b4513, #6f4f1a); /* Darker wood tones */
-        border: 2px solid #3e2a47; /* Darker border color */
+    .p-5.m-4 {
+        width: 100%;
+        max-width: 550px; /* Increased max-width for wider form */
+        background-color: #fff; /* White background for the form */
+        border-radius: 15px; /* Rounded corners for the form */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        padding: 20px 30px; /* Slightly increased padding */
+        transition: all 0.3s ease-in-out;
+    }
+
+    .p-5.m-4:hover {
+        transform: translateY(-5px); /* Hover effect to lift the form */
+    }
+
+    .col-lg-6 {
+        width: 100%;
+        padding: 10px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 1rem; /* Reduced margin between fields */
+    }
+
+    .form-control-lg {
         border-radius: 8px;
-        color: #fff;
-        font-size: 1rem;
-        text-transform: uppercase;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        border: 1px solid #ddd;
+        padding: 10px; /* Reduced padding */
+        font-size: 1rem; /* Slightly smaller font size */
         transition: all 0.3s ease;
     }
 
-    .wood-btn:hover {
-        background: linear-gradient(to right, #6f4f1a, #3e2a47); /* Darker hover effect */
-        border: 2px solid #3e2a47;
+    .form-control-lg:focus {
+        border-color: #ff4c9e; /* Highlight border color on focus */
+        box-shadow: 0 0 5px rgba(255, 76, 158, 0.5); /* Focus glow effect */
+    }
+
+    .wood-btn {
+        background: linear-gradient(to right, #ff8c00, #ff4c9e); /* Gradient Background */
+        border: none;
+        border-radius: 8px;
         color: #fff;
-        transform: scale(1.05);
+        font-size: 1.1rem; /* Slightly smaller font size */
+        text-transform: uppercase;
+        padding: 8px 20px; /* Reduced padding */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        width: 100%; /* Makes button take full width */
+    }
+
+    .wood-btn:hover {
+        background: linear-gradient(to right, #ff4c9e, #ff8c00); /* Reverse gradient on hover */
+        transform: scale(1.05); /* Slight zoom on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .wood-btn:active {
+        transform: scale(1); /* Reset zoom on click */
+    }
+
+    .text-center h5 {
+        font-size: 1.5rem; /* Reduced font size */
+        font-weight: bold;
+        color: #ff4c9e;
+        text-align: center; /* Center align title */
+    }
+
+    .text-center .btn {
+        text-align: center; /* Center align buttons */
+        width: auto; /* Adjust button width */
+        margin-top: 15px;
+    }
+
+    .text-danger {
+        font-size: 0.9rem;
+    }
+
+    /* Center-align buttons */
+    .form-group.text-center {
+        display: flex;
+        justify-content: center;
+    }
+
+    /* Custom message CSS */
+    .custom-message {
+        display: inline-block;
+        font-size: 1rem;
+        font-weight: bold;
+        padding: 15px;
+        border-radius: 8px;
+        color: #fff;
+        background-color: #28a745; /* Green color for success message */
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .custom-message .btn-close {
+        color: white;
+        opacity: 0.6;
+    }
+
+    .custom-message .btn-close:hover {
+        opacity: 1;
     }
 
     /* Mobile responsiveness */
@@ -155,99 +257,21 @@
             padding: 10px;
         }
 
-        .btn {
-            font-size: 1rem; /* Smaller font size for buttons */
-            padding: 15px 30px;
-        }
-
-        .p-5, .m-4 {
-            padding: 10px !important;
-            margin: 10px !important;
-        }
-
-        .col-lg-6, .col-md-8 {
-            margin: 0 auto;
-            padding: 0;
+        .wood-btn {
+            font-size: 1rem; /* Adjust button font size for smaller screens */
+            padding: 10px 15px;
         }
     }
 </style>
 
 <script>
-    document.getElementById('registrationForm').addEventListener('submit', function(event) {
-        let isValid = true;
-
-        // Field values
-        const phone = document.getElementById('phone').value;
-        const password = document.getElementById('password').value;
-        const standard = document.getElementById('standard').value.toUpperCase();
-        const division = document.getElementById('division').value.toUpperCase();
-        const studentName = document.getElementById('student_name').value;
-        const parentName = document.getElementById('parent_name').value;
-        const rollNo = document.getElementById('roll_no').value;
-        const username = document.getElementById('username').value;
-        const address = document.getElementById('address').value;
-
-        // Regular expressions
-        const phoneRegex = /^[987]\d{9}$/;
-        const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-        const standardRegex = /^(LKG|UKG|[1-9]|1[0-2])$/;
-        const divisionRegex = /^[A-D0-9]+$/;
-        const rollNoRegex = /^[A-Za-z0-9]+$/;
-        const nameRegex = /^[A-Za-z\s]+$/;
-
-        // Clear previous errors
-        document.querySelectorAll('.text-danger').forEach(el => el.textContent = '');
-
-        // Validation
-        if (!nameRegex.test(studentName)) {
-            document.getElementById('studentNameError').textContent = 'Student name must contain only alphabets and spaces.';
-            isValid = false;
-        }
-
-        if (!nameRegex.test(parentName)) {
-            document.getElementById('parentNameError').textContent = 'Parent name must contain only alphabets and spaces.';
-            isValid = false;
-        }
-
-        if (!phoneRegex.test(phone)) {
-            document.getElementById('phoneError').textContent = 'Phone number must start with 9, 8, or 7 and be 10 digits long.';
-            isValid = false;
-        }
-
-        if (!passwordRegex.test(password)) {
-            document.getElementById('passwordError').textContent = 'Password must be at least 8 characters, contain 1 uppercase, 1 number, and 1 special character.';
-            isValid = false;
-        }
-
-        if (!standardRegex.test(standard)) {
-            document.getElementById('standardError').textContent = 'Invalid standard. Please enter a valid standard (LKG, UKG, or 1-12).';
-            isValid = false;
-        }
-
-        if (!divisionRegex.test(division)) {
-            document.getElementById('divisionError').textContent = 'Invalid division. Please enter a valid division.';
-            isValid = false;
-        }
-
-        if (!rollNoRegex.test(rollNo)) {
-            document.getElementById('rollNoError').textContent = 'Invalid roll number.';
-            isValid = false;
-        }
-
-        if (!username) {
-            document.getElementById('usernameError').textContent = 'Username is required.';
-            isValid = false;
-        }
-
-        if (!address) {
-            document.getElementById('addressError').textContent = 'Address is required.';
-            isValid = false;
-        }
-
-        if (!isValid) {
-            event.preventDefault();
-        }
+    // Hide the message after 3 seconds
+    setTimeout(function() {
+    var messages = document.querySelectorAll('.custom-message');
+    messages.forEach(function(message) {
+        message.style.display = 'none';
     });
+}, 3000);
 </script>
 
 {% endblock %}

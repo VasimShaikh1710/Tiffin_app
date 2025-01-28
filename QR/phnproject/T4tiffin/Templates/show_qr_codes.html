@@ -1,21 +1,212 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Success</title>
-</head>
-<body>
-    <h2>Signup Successful!</h2>
-    <p>Username: {{ student.username }}</p>
-    <p>student_name: {{ student.student_name }}</p>
-    <p>parent_name: {{ student.parent_name }}</p>
-    <p>standard: {{ student.standard }}</p>
-    <p>division: {{ student.division }}</p>
-    <p>address: {{ student.address }}</p>
+{% extends 'base.html' %}
 
-    {% if user.qr_code %}
-        <img src="{{ student.qr_code.url }}" alt="QR Code">
+{% block title %}QR Codes - {{ student.student_name }}{% endblock %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5 qr-container">
+    <h3 class="text-center text-uppercase text-white mb-4">QR Codes for {{ student.student_name }}</h3>
+
+    {% if qrcodes %}
+        <!-- Main QR Code Section (Centered) -->
+        <div class="main-qr-wrapper">
+            {% for qr in qrcodes %}
+                {% if forloop.first and qr.parmanantqr_base64 %}
+                    <div class="main-qr-card">
+                        <img src="data:image/png;base64,{{ qr.parmanantqr_base64 }}" class="card-img-top img-fluid rounded" alt="Permanent QR Code">
+                        <div class="card-body text-center">
+                            <h5 class="card-title text-primary">Main QR Code</h5>
+                            <p class="card-text text-muted">{{ student.student_name }} - QR</p>
+                            <a href="data:image/png;base64,{{ qr.parmanantqr_base64 }}" class="btn btn-custom w-75" download="Permanent_QR_{{ student.student_name }}">Download</a>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Multiple QR Codes (1 to 10) Grid -->
+        <div class="multiple-qr-row">
+            {% for qr in qrcodes %}
+                {% if qr.multiple_base64 %}
+                    <div class="multiple-qr-card">
+                        <img src="data:image/png;base64,{{ qr.multiple_base64 }}" alt="QR Code {{ forloop.counter }}">
+                        <h5 class="text-custom mt-2">QR Code {{ forloop.counter }}</h5>
+                        <a href="data:image/png;base64,{{ qr.multiple_base64 }}" class="btn btn-custom mt-3" download="QR_{{ forloop.counter }}">Download</a>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+
+        <!-- Download All Button (Centered) -->
+        <div class="button-grid">
+            <a href="{% url 'download_multiple_qrs' student.id %}" class="btn btn-custom">Download All QR Codes</a>
+        </div>
     {% else %}
-        <p>No QR code generated</p>
+        <!-- No QR Codes Alert -->
+        <div class="alert text-center mt-5">No QR codes found for this student.</div>
     {% endif %}
-</body>
-</html>
+{% block styles %}
+<style>
+    /* Background and Container */
+    .qr-container {
+        background: linear-gradient(135deg, #ff8c00, #ff4c9e);
+        border-radius: 20px;
+        box-shadow: 0px 12px 25px rgba(0, 0, 0, 0.2);
+        padding: 40px;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    /* Heading Styling */
+    .qr-container h3 {
+        font-family: 'Roboto', sans-serif;
+        font-weight: bold;
+        text-align: center;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        color: white;
+        margin-bottom: 30px;
+        animation: fadeIn 1s ease-in-out;
+    }
+
+    /* Animation for Fade-In Effect */
+    @keyframes fadeIn {
+        0% { opacity: 0; }
+        100% { opacity: 1; }
+    }
+
+    /* Main QR Code Section */
+    .main-qr-wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 50vh;
+        margin-bottom: 40px;
+    }
+
+    .main-qr-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.15);
+        width: 250px;
+        padding: 20px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .main-qr-card:hover {
+        transform: scale(1.05);
+    }
+
+    .main-qr-card img {
+        max-width: 180px;
+        max-height: 180px;
+        object-fit: contain;
+        border-radius: 12px;
+        margin-bottom: 20px;
+    }
+
+    .card-title {
+        font-size: 1.2rem;
+        color: #007bff;
+        font-weight: 700;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #777;
+        margin-bottom: 20px;
+    }
+
+    /* Button Styling */
+    .btn-custom {
+        background: linear-gradient(to right, #ff8c00, #ff4c9e);
+        color: white;
+        border-radius: 25px;
+        padding: 12px 25px;
+        font-size: 1rem;
+        text-transform: uppercase;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-custom:hover {
+        background: linear-gradient(to right, #ff4c9e, #ff8c00);
+        transform: scale(1);
+    }
+
+    /* Multiple QR Codes Section */
+    .multiple-qr-row {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 30px;
+        margin-top: 30px;
+    }
+
+    .multiple-qr-card {
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        width: 180px;
+        text-align: center;
+        transition: transform 0.3s ease;
+    }
+
+    .multiple-qr-card:hover {
+        transform: scale(1.05);
+    }
+
+    .multiple-qr-card img {
+        max-width: 140px;
+        max-height: 140px;
+        object-fit: contain;
+        border-radius: 10px;
+        margin-bottom: 15px;
+    }
+
+    /* Footer Section */
+    .footer-btns {
+        text-align: center;
+        margin-top: 50px;
+    }
+
+    .btn-lg {
+        padding: 12px 30px;
+        font-size: 1.2rem;
+        border-radius: 25px;
+    }
+
+    .alert {
+        font-size: 1.2rem;
+        color: #d9534f;
+    }
+
+    /* Download All Button Styling */
+    .button-grid {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+    }
+
+    .button-grid a {
+        background: linear-gradient(to right, #ff8c00, #ff4c9e);
+        color: white;
+        border-radius: 25px;
+        padding: 15px 30px;
+        font-size: 1.2rem;
+        text-transform: uppercase;
+        transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .button-grid a:hover {
+        background: linear-gradient(to right, #ff4c9e, #ff8c00);
+        transform: scale(1);
+    }
+</style>
+{% endblock %}
+
+{% endblock %}
